@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>步步坚管理中心 - 会员列表 </title>
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="__PUBLIC__/Admin/css/general.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__/Admin/css/main.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<h1>
+<span class="action-span1"><a href="__ROOT__/index.php/Admin/index/main">ECSHOP 管理中心</a> </span><span id="search_id" class="action-span1"> - 用户评论 </span>
+<div style="clear:both"></div>
+</h1>
+<form method="post" action="" name="listForm">
+<div class="list-div" id="listDiv">
+
+<table width="100%" cellspacing="1" cellpadding="2" id="list-table">
+  <tr>
+    <th>会员ID</th>
+    <th>会员名字</th>
+    <th>Email</th>
+    <th>注册日期</th>
+  </tr>
+  <foreach name="user" item="u">
+      <tr align="center" class="0" id="0_1" id = 'tr_1'>
+    <td>{$u.user_id}</td>
+    <td >{$u.username}</td>
+    <td>{$u.email}</td>
+        <td>{$u.pubtime|date="Y-m-d",###}</td>
+  </tr>
+  </foreach>
+  </table>
+</div>
+</form>
+
+</body>
+</html>

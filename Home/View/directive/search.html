@@ -1,0 +1,12 @@
+<form ng-submit="submitSearch()"  ng-mouseleave="method.closeSearch()">
+        <div id="search0" class="search input-group">
+            <input class="autosearch-input form-control" type="text" size="20" ng-model="inputModel" autocomplete="off" placeholder="Search"
+                   name="keyword" ng-focus="method.searchData()" ng-change="method.searchData()" ng-keydown="method.keyDownEvent($event)">
+            <span class="input-group-btn">
+            <button type="submit" class="button-search btn btn-primary"><i class="fa fa-search"></i></button>
+        </span>
+        </div>
+        <ul class="shelper"  ng-show="dataList.length > 0" id="forhide">
+            <li ng-repeat="data in dataList" ng-mouseover="method.mouseOverEvent($index)" ng-mousedown="method.mouseDownEvent($event)" > {{data.goods_name}}</li>
+        </ul>
+</form>

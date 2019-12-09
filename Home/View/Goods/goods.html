@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic page needs
+	============================================ -->
+    <title>{$goodsinfo['goods_name']} - 步步坚商城</title>
+    <meta charset="utf-8">
+    <meta name="keywords" content="" />
+    <meta name="author" content="Magentech">
+    <meta name="robots" content="index, follow" />
+
+
+    <!-- Mobile specific metas
+    ============================================ -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Favicon
+    ============================================ -->
+    <link rel="bookmark" href="__ROOT__/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="__ROOT__/favicon.ico" />
+
+    <!-- Libs CSS
+	============================================ -->
+    <link href="__PUBLIC__/Home/css/style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="__PUBLIC__/Home/templet/css/bootstrap/css/bootstrap.min.css">
+    <link href="__PUBLIC__/Home/templet/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="__PUBLIC__/Home/templet/js/datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <link href="__PUBLIC__/Home/templet/css/themecss/lib.css" rel="stylesheet">
+    <link href="__PUBLIC__/Home/templet/js/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+
+    <!-- Theme CSS
+    ============================================ -->
+    <link href="__PUBLIC__/Home/templet/css/themecss/so_megamenu.css" rel="stylesheet">
+    <link href="__PUBLIC__/Home/templet/css/themecss/so-categories.css" rel="stylesheet">
+    <link href="__PUBLIC__/Home/templet/css/themecss/so-listing-tabs.css" rel="stylesheet">
+    <link id="color_scheme" href="__PUBLIC__/Home/templet/css/theme.css" rel="stylesheet">
+    <link href="__PUBLIC__/Home/templet/css/responsive.css" rel="stylesheet">
+
+</head>
+
+<body class="res layout-subpage">
+
+<div id="wrapper" class="wrapper-full" ng-app="app">
+    <!-- Header Container  -->
+    <include file="Common/header"/>
+    <!-- //Header Container  -->
+    <!-- Main Container  -->
+    <div class="main-container container">
+        <ul class="breadcrumb">
+            <li><a href="__ROOT__/"><i class="fa fa-home"></i></a></li>
+            <foreach name="mbx" item='m'>
+                <li><a href="{:U('Home/cat/cat',array('cat_id'=>$m['cat_id']))}">{$m['cat_name']}</a></li>
+            </foreach>
+            <li>{$goodsinfo['goods_name']}</li>
+        </ul>
+
+        <div class="row">
+            <!--Middle Part Start-->
+            <div id="content" class="col-md-12 col-sm-12">
+
+                <div class="product-view row">
+                    <div class="left-content-product col-lg-10 col-xs-12">
+                        <div class="row">
+                            <div class="content-product-left class-honizol col-sm-6 col-xs-12 ">
+                                <div class="large-image">
+                                    <img  class="product-image-zoom" src="__ROOT__{$goodsinfo['goods_img']}"  title="{$goodsinfo['goods_name']}" alt="{$goodsinfo['goods_name']}" width="100%" height="100%">
+                                </div>
+                            </div>
+                            <div class="content-product-right col-sm-6 col-xs-12">
+                                <div class="title-product">
+                                    <h1>{$goodsinfo['goods_name']}</h1>
+                                </div>
+                                <!-- Review -->
+                                <div class="box-review form-group">
+                                    <div class="ratings">
+                                        <div class="rating-box">
+                                            好评度：
+                                            <for start="0" end="$rank">
+                                                <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span>
+                                            </for>
+                                            <for start="$rank" end="5">
+                                                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i></span>
+                                            </for>
+                                        </div>
+                                    </div>
+                                    <notempty name="sum">
+                                        <a class="reviews_button" href="" onclick="$('a[href=\'#tab-review\']').trigger('click'); return false;">{$sum} 评价</a>	|
+                                     <else/>
+                                        <a class="reviews_button" href="" onclick="$('a[href=\'#tab-review\']').trigger('click'); return false;">暂无评价</a>	|
+                                    </notempty>
+                                    <a class="write_review_button" href="" onclick="$('a[href=\'#tab-review\']').trigger('click'); return false;">去写评价</a>
+                                </div>
+
+                                <div class="product-label form-group">
+                                    <div class="product_page_price price" itemprop="offerDetails" itemscope="" itemtype="http://data-vocabulary.org/Offer">
+                                        <span class="price-new" itemprop="price">￥{$goodsinfo.shop_price}</span>
+                                        <span class="price-old">￥{$goodsinfo.market_price}</span>
+                                    </div>
+                                    <div class="stock"> <span class="status-stock">有现货</span></div>
+                                </div>
+
+                                <div class="product-box-desc">
+                                    <div class="inner-box-desc">
+                                        <div class="price-tax"><span>税前:</span> 免税</div>
+                                          <div class="brand"><span>品牌:</span><a href="#">{$goodsinfo.brand_name}</a>		</div>
+                                        <div class="model"><span>产品编号:</span> {$goodsinfo.goods_sn}</div>
+                                        <div class="reward"><span>返积分:</span> 100</div>
+                                    </div>
+                                </div>
+
+
+                                <div id="product">
+                                    <br/>
+                                    <div class="form-group box-info-product">
+                                        <div class="option quantity">
+                                            <div class="input-group quantity-control" unselectable="on" style="-webkit-user-select: none;">
+                                                <label>数量</label>
+                                                <input class="form-control" type="text" name="quantity" value="1">
+                                                <input type="hidden" name="goods_id" value="{$goodsinfo['goods_id']}">
+                                                <span class="input-group-addon product_quantity_down">−</span>
+                                                <span class="input-group-addon product_quantity_up">+</span>
+                                            </div>
+                                        </div>
+                                        <div class="cart">
+                                            <input type="button" data-toggle="tooltip" title="" value="加入购物车" data-loading-text="Loading..." id="button-cart" class="btn btn-mega btn-lg" onclick="add('cart',{$goodsinfo.goods_id});" data-original-title="加入购物车">
+                                        </div>
+                                        <div class="add-to-links wish_comp">
+                                            <ul class="blank list-inline">
+                                                <li class="wishlist">
+                                                    <a class="icon" data-toggle="tooltip" title=""
+                                                       onclick="add('wishlist',{$goodsinfo['goods_id']});" data-original-title="加入心愿单"><i class="fa fa-heart"></i>
+                                                    </a>
+                                                </li>
+                                                <li class="compare">
+                                                    <a class="icon" data-toggle="tooltip" title=""
+                                                       onclick="add('compare',{$goodsinfo['goods_id']});" data-original-title="对入对比"><i class="fa fa-exchange"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                                <!-- end box info product -->
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <section class="col-lg-2 hidden-sm hidden-md hidden-xs slider-products">
+                        <div class="module col-sm-12 four-block">
+                            <div class="modcontent clearfix">
+                                <div class="policy-detail">
+                                    <div class="banner-policy">
+                                        <div class="policy policy1">
+                                            <a href="#"> <span class="ico-policy">&nbsp;</span>	7 天
+                                                <br>无理由退换 </a>
+                                        </div>
+                                        <div class="policy policy2">
+                                            <a href="#"> <span class="ico-policy">&nbsp;</span>	100+城市<br>次日达 </a>
+                                        </div>
+                                        <div class="policy policy3">
+                                            <a href="#"> <span class="ico-policy">&nbsp;</span>	保证最低价格<br>保价30天</a>
+                                        </div>
+                                        <div class="policy policy4">
+                                            <a href="#"> <span class="ico-policy">&nbsp;</span>	购物保障<br>
+                                                100%原装正品 </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Product Tabs -->
+                <div class="producttab ">
+                    <div class="tabsslider  vertical-tabs col-xs-12">
+                        <ul class="nav nav-tabs col-lg-2 col-sm-3">
+                            <li class="active"><a data-toggle="tab" href="#tab-1">描述</a></li>
+                            <li class="item_nonactive"><a data-toggle="tab" href="#tab-review">商品评价({$sum})</a></li>
+                            <li class="item_nonactive"><a data-toggle="tab" href="#tab-4">印象标签</a></li>
+                            <li class="item_nonactive"><a data-toggle="tab" href="#tab-5">品牌故事</a></li>
+                        </ul>
+                        <div class="tab-content col-lg-10 col-sm-9 col-xs-12">
+                            <div id="tab-1" class="tab-pane fade active in">
+                                {$goodsinfo['goods_desc']}
+                            </div>
+                            <div id="tab-review" class="tab-pane fade">
+                                <div id="review">
+                                    <foreach name="comment" item="c">
+                                        <table class="table table-striped table-bordered">
+                                            <tbody>
+                                            <tr>
+                                                <td style="width: 50%;"><strong>{$c.username}</strong></td>
+                                                <td class="text-right">{$c.pubtime|date="Y-m-d H:i",###}</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <p>{$c.content}</p>
+                                                    <notempty name="c['parent_content']">
+                                                        <p style="text-indent:15px;color:red;">店主回复：{$c['parent_content']}</p>
+                                                    </notempty>
+                                                    <div class="ratings">
+                                                        <div class="rating-box">
+                                                            <for start="0" end="$c.comment_rank">
+                                                                <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span>
+                                                            </for>
+                                                            <for start="$c.comment_rank" end="5">
+                                                                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i></span>
+                                                            </for>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </foreach>
+                                    <div class="text-right"></div>
+                                </div>
+                                <h2 id="review-title">写评论</h2>
+                                <notempty name="user_id">
+                                    <form action="{:U('home/goods/comment')}" method="post" id="commentForm">
+                                        <div class="contacts-form">
+                                            <span style="font-size: 11px;"><span class="text-danger">友情提示:</span>HTML不适用</span>
+                                            <div class="form-group"> <span class="icon icon-bubbles-2"></span>
+                                                <textarea class="form-control" name="content" onblur="if (this.value == '') {this.value = '您对此商品的评价，最少六字';}" onfocus="if(this.value == '您对此商品的评价，最少六字') {this.value = '';}">您对此商品的评价，最少六字</textarea>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <b>评分：</b> <span>差</span>&nbsp;
+                                                <input name="comment_rank" type="radio" name="rating" value="1"> &nbsp;
+                                                <input name="comment_rank" type="radio" name="rating" value="2"> &nbsp;
+                                                <input name="comment_rank" type="radio" name="rating" value="3"> &nbsp;
+                                                <input name="comment_rank" type="radio" name="rating" value="4"> &nbsp;
+                                                <input name="comment_rank" type="radio" name="rating" value="5" checked="checked" > &nbsp;
+                                                <span>好</span>
+                                            </div>
+                                            <input type="hidden" name="goods_id" value="{$goodsinfo['goods_id']}">
+
+                                            <input type="hidden" name="user_id" value="{$user_id}">
+                                            <!--<a id="button-review" class="btn buttonGray">发表</a>-->
+                                            <div class="buttons clearfix"><button id="button-review" class="btn buttonGray">发表</button></div>
+                                        </div>
+                                    </form>
+                                <else/>
+                                    <p>你没有登录，不能对商品进行评价。</p>
+                                </notempty>
+                            </div>
+                            <div id="tab-4" class="tab-pane fade">
+                                <a href="#">外观漂亮</a>,
+                                <a href="#">大牌子有保证</a>
+                            </div>
+                            <div id="tab-5" class="tab-pane fade">
+                                <p>在创立电脑前，创始人之一沃兹已经是一个电子学骇客，自1975年，他在惠普上班和帮斯蒂夫•乔布斯设计
+                                    Atari电子游戏。当时沃兹向由Alex Kamradt开设的分时电脑系统服务公司Call Computer租用小型电脑
+                                    使用。 </p>
+                                <p>在史蒂夫•乔布斯、史蒂夫•沃兹尼亚克和罗纳德‧韦恩(Ronald Wayne)三人决定成立公司时，乔布斯正好从
+                                    一次旅行回来，他向沃兹建议把公司命名为苹果电脑。最初的LOGO在1976年由创始人三人之一韦恩设计，
+                                    只在生产Apple-I时使用，为牛顿坐在苹果树下看书的钢笔绘画。在1976年由乔布斯决定重新委托广告设计
+                                    ，并配合Apple-2的发行使用，本次LOGO确定使用了彩虹色、具有一个缺口的苹果图像。这个LOGO一直使用
+                                    至1998年，在iMac发布时作出修改，变更为单色系列。2007年再次变更为金属带有阴影的银灰色，使用至今。
+                                </p>
+                                <p>苹果LOGO的来由多被误解为“图灵自杀时吃了一口的氰化物溶液苹果”。其来源为2001年的英国电影《Enigma》
+                                    ，在该部电影中虚构了前述有关图灵自杀与苹果公司LOGO关系的情节，被部分公众以及媒体讹传。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- //Product Tabs -->
+
+                <!-- Related Products -->
+                <div class="related titleLine products-list grid module ">
+                    <h3 class="modtitle">猜你喜欢  </h3>
+                    <foreach name="likegoods" item="l">
+                    <div class="releate-products">
+                        <div class="product-layout col-md-4 col-sm-6 col-xs-12">
+                            <div class="product-item-container">
+                                <div class="left-block">
+                                    <div class="product-image-container  second_img ">
+                                        <a href="__ROOT__/Home/goods/goods/goods_id/{$l.goods_id}">
+                                            <img  src="__ROOT__{$l['goods_img']}"  alt="{$l['goods_name']}" class="img-responsive" />
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="right-block">
+                                    <div class="caption">
+                                        <h4><a href="__ROOT__/Home/goods/goods/goods_id/{$l['goods_id']}">{$l['goods_name']}</a></h4>
+                                        <div class="ratings">
+                                            <div class="rating-box">
+                                                <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span>
+                                                <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span>
+                                                <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span>
+                                                <span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span>
+                                                <span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i></span>
+                                            </div>
+                                        </div>
+
+                                        <div class="price">
+                                            <span class="price-new">￥{$l.shop_price}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="button-group">
+                                        <button class="addToCart" type="button" data-toggle="tooltip" title="加入购物车" onclick="cart.add('{$l.goods_id}')">
+                                            <i class="fa fa-shopping-cart"></i> <span class="hidden-xs">买买买！</span>
+                                        </button>
+                                        <button class="wishlist" type="button" data-toggle="tooltip" title="加入心愿单" onclick="wishlist.add('{$l.goods_id}')"><i class="fa fa-heart"></i></button>
+                                        <button class="compare" type="button" data-toggle="tooltip" title="加入对比列表" onclick="compare.add('{$l.goods_id}')"><i class="fa fa-exchange"></i></button>
+                                    </div>
+                                </div><!-- right block -->
+                            </div>
+                        </div>
+                    </div>
+                    </foreach>
+                </div>
+
+                <!-- end Related  Products-->
+            </div>
+        </div>
+        <!--Middle Part End-->
+    </div>
+    <!-- //Main Container -->
+
+    <!-- Footer Container -->
+    <include file="Common/footer"/>
+    <!-- //end Footer Container -->
+
+</div>
+
+
+<!-- Cpanel Block -->
+<div id="sp-cpanel_btn" class="isDown visible-lg">
+    <i class="fa fa-cog"></i>
+</div>
+
+<div id="sp-cpanel" class="sp-delay">
+    <h2 class="sp-cpanel-title"> Demo Options <span class="sp-cpanel-close"> <i class="fa fa-times"> </i></span></h2>
+    <div id="sp-cpanel_settings">
+        <div class="panel-group">
+            <label>Color Scheme</label>
+            <div class="group-schemes" >
+                <span data-scheme="default"  class="item_scheme selected"><span style="background: #e8622d;"></span></span>
+                <span data-scheme="blue" class="item_scheme"><span style="background: #478bca;"></span></span>
+                <span data-scheme="boocdo"  class="item_scheme"><span style="background: #e54e4e;"></span></span>
+                <span data-scheme="cyan" class="item_scheme"><span style="background: #1ea181;"></span></span>
+                <span data-scheme="green" class="item_scheme "><span style="background: #52a633;"></span></span>
+
+            </div>
+        </div>
+
+        <div class="panel-group ">
+            <label>Header style</label>
+            <div class="group-boxed">
+                <select id="change_header_type" name="cpheaderstype" class="form-control" onchange="headerTypeChange(this.value);">
+                    <option value="header-home1" >Header 1</option>
+                    <option value="header-home2" >Header 2</option>
+                    <option value="header-home3" >Header 3</option>
+                    <option value="header-home4" >Header 4</option>
+                </select>
+            </div>
+        </div>
+
+
+        <div class="panel-group ">
+            <label>Layout Box</label>
+            <div class="group-boxed">
+                <select id="cp-layoutbox" name="cplayoutbox" class="form-control" onchange="changeLayoutBox(this.value);">
+                    <option value="full">Wide</option>
+                    <option value="boxed">Boxed</option>
+                    <option value="iframed">Iframed</option>
+                    <option value="rounded">Rounded</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="panel-group">
+            <label>Body Image</label>
+
+            <div class="group-pattern">
+                <div data-pattern="28"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/28.png" alt="pattern 28"></div>
+                <div data-pattern="29"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/29.png" alt="pattern 29"></div>
+                <div data-pattern="30"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/30.png" alt="pattern 30"></div>
+                <div data-pattern="31"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/31.png" alt="pattern 31"></div>
+                <div data-pattern="32"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/32.png" alt="pattern 32"></div>
+                <div data-pattern="33"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/33.png" alt="pattern 33"></div>
+                <div data-pattern="34"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/34.png" alt="pattern 34"></div>
+                <div data-pattern="35"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/35.png" alt="pattern 35"></div>
+                <div data-pattern="36"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/36.png" alt="pattern 36"></div>
+                <div data-pattern="37"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/37.png" alt="pattern 37"></div>
+                <div data-pattern="38"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/38.png" alt="pattern 38"></div>
+                <div data-pattern="39"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/39.png" alt="pattern 39"></div>
+                <div data-pattern="40"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/40.png" alt="pattern 40"></div>
+                <div data-pattern="41"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/41.png" alt="pattern 41"></div>
+                <div data-pattern="42"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/42.png" alt="pattern 42"></div>
+                <div data-pattern="43"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/43.png" alt="pattern 43"></div>
+                <div data-pattern="44"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/44.png" alt="pattern 44"></div>
+                <div data-pattern="45"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/45.png" alt="pattern 45"></div>
+            </div>
+            <p class="label-sm">Background only applies for Boxed,Framed, Rounded Layout</p>
+        </div>
+
+        <div class="reset-group">
+            <a href="__SELF__" class="btn btn-success " onclick="ResetAll()">Reset</a>
+        </div>
+
+    </div>
+
+</div>
+
+
+<link rel='stylesheet' property='stylesheet'  href='__PUBLIC__/Home/templet/css/themecss/cpanel.css' type='text/css' media='all' />
+
+
+<!-- Preloading Screen -->
+<div id="loader-wrapper">
+    <div id="loader"></div>
+    <div class="loader-section section-left"></div>
+    <div class="loader-section section-right"></div>
+</div>
+<!-- End Preloading Screen -->
+
+<!-- Include Libs & Plugins
+	============================================ -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/angular.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/angular-ui-bootstrap.js"></script>
+<script>
+    var root_url = '__ROOT__';
+    var m = angular.module('app', []);
+</script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/owl-carousel/owl.carousel.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/libs.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/unveil/jquery.unveil.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/countdown/jquery.countdown.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/dcjqaccordion/jquery.dcjqaccordion.2.8.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/datetimepicker/moment.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/datetimepicker/bootstrap-datetimepicker.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/jquery-ui/jquery-ui.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/cart_nav.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/search.js"></script>
+<!-- Theme files
+============================================ -->
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/so_megamenu.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/addtocart.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/application.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/cpanel.js"></script>
+<script>
+    $('#button-review').click(function(){
+        if($("textarea[name='content']").val() == "您对此商品的评价，最少六字"){
+            alert('"评价"写点什么吧');
+            return false;
+        }
+    })
+</script>
+</body>
+</html>

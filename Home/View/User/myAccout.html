@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- Basic page needs
+	============================================ -->
+    <title>帐户信息 - 步步坚商城</title>
+    <meta charset="utf-8">
+    <meta name="keywords" content="" />
+    <meta name="author" content="Magentech">
+    <meta name="robots" content="index, follow" />
+
+    <!-- Mobile specific metas
+    ============================================ -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Favicon
+    ============================================ -->
+    <link rel="bookmark" href="__ROOT__/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="__ROOT__/favicon.ico" />
+
+    <!-- Libs CSS
+	============================================ -->
+    <link href="__PUBLIC__/Home/css/style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="__PUBLIC__/Home/templet/css/bootstrap/css/bootstrap.min.css">
+    <link href="__PUBLIC__/Home/templet/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Theme CSS
+    ============================================ -->
+    <link href="__PUBLIC__/Home/templet/css/themecss/so_megamenu.css" rel="stylesheet">
+    <link id="color_scheme" href="__PUBLIC__/Home/templet/css/theme.css" rel="stylesheet">
+    <link href="__PUBLIC__/Home/templet/css/responsive.css" rel="stylesheet">
+
+</head>
+
+<body class="res layout-subpage">
+
+<div id="wrapper" class="wrapper-full" ng-app="app">
+    <!-- Header Container  -->
+    <include file="Common/header"/>
+    <!-- //Header Container  -->
+    <!-- Main Container  -->
+    <div class="main-container container" ng-controller="listctrl">
+        <ul class="breadcrumb">
+            <li><a href="__ROOT__/"><i class="fa fa-home"></i></a></li>
+            <li ng-bind="list">&nbsp;</li>
+        </ul>
+        <if condition="$error eq 1">
+            <h3 style="margin-bottom:0">登录超时，请重新登录。按此<a href="{:U('Home/user/login')}">登录</a>或回<a href="__ROOT__/">首页</a></h3>
+            <else/>
+            <div class="row">
+                <!--Left Part Start -->
+                <aside class="col-sm-3" id="column-left">
+                    <div class="module latest-product titleLine">
+                        <h3 class="modtitle">个人中心</h3>
+                        <div class="modcontent ">
+                            <h4><a href="#" ui-sref="info">个人信息</a></h4>
+                            <h4><a href="#" ui-sref="safe">帐户安全</a></h4>
+                            <h4><a href="#" ui-sref="address">收货地址</a></h4>
+                        </div>
+                    </div>
+                    <div class="module latest-product titleLine">
+                        <h3 class="modtitle">订单中心</h3>
+                        <div class="modcontent ">
+                            <h4><a href="#" ui-sref="order">我的订单</a></h4>
+                        </div>
+                    </div>
+                </aside>
+                <!--Left Part End -->
+
+                <!--Middle Part Start-->
+                <!--			<cat-show></cat-show>-->
+
+                <!--			<script type="text/ng-template" id="Home-cat.html">-->
+                <div id="content" class="col-sm-9" style="background-color:#f5f5f5">
+                    <div ui-view></div>
+                </div>
+                <!--	</script>-->
+            </div>
+            <!--Middle Part End-->
+        </if>
+    </div>
+
+    <!-- //Main Container -->
+
+
+    <!-- Footer Container -->
+    <include file="Common/footer"/>
+    <!-- //end Footer Container -->
+</div>
+
+
+<!-- Include Libs & Plugins
+	============================================ -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/angular.min.js"></script>
+<script src="__PUBLIC__/Home/js/angular-ui-router.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/angular-ui-bootstrap.js"></script>
+
+<script>
+    var root_url = '__ROOT__';
+    var m = angular.module('app', ['ui.router']);
+</script>
+<script src="__PUBLIC__/Home/js/ar.js"></script>
+<script>
+    m.controller('listctrl',function($scope) {
+        $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
+            $scope.list = toState.list;
+        });
+    });
+
+    m.config(function ($stateProvider, $urlRouterProvider) {
+        //默认路由
+        $urlRouterProvider.otherwise('/address');
+        //定义路由规则
+        $stateProvider
+            .state('info', {
+                url: '/info',
+                templateUrl: 'info.html',
+                list: '个人信息'
+            })
+            .state('safe', {
+                url: '/safe',
+                templateUrl: 'safe.html',
+                list: '帐户安全'
+            })
+            .state('address', {
+                url: '/address',
+                templateUrl: 'address.html',
+                controller: 'arCtrl',
+                resolve: {
+                    ar : function ($http) {           // 重写state.resolve
+                        return $http.get(root_url+'/Home/User/getAddress/user_id/'+{$user_id}).then(function(res){
+                            return res.data;
+                        })
+                    }
+                },
+                list: '收货地址'
+            })
+            .state('order', {
+                url: '/order',
+                templateUrl: 'order.html',
+                controller: 'orderCtrl',
+                resolve: {
+                    getOrder : function ($http) {           // 重写state.resolve
+                        return $http.get(root_url+'/Home/Order/getOrder/user_id/'+{$user_id}).then(function(res){
+                            return res.data;
+                        })
+                    }
+                },
+                list: '我的订单'
+            })
+    });
+    m.controller('orderCtrl', function (getOrder,$scope,$filter) {  // 访问视图自身的resolve
+        $scope.data = $scope.use_data = getOrder;
+        //$scope.size = Object.keys($scope.data).length;
+        $scope.paid = function(){
+            $scope.use_data = $filter('filter')($scope.data,{paystatus:'1'});
+        };
+        $scope.nopaid = function(){
+            $scope.use_data = $filter('filter')($scope.data,{paystatus:'0'});
+        };
+
+        $scope.search = function(){
+             function myComparator(expected, actual) {
+                return angular.equals(expected, actual);
+            }
+            $scope.use_data = $filter('filter')($scope.data,{ord_sn:$scope.keywords},myComparator);
+
+            temp = [];
+            $scope.data.forEach(function (d) {
+                d.goods.forEach(function (v) {
+                    if(v.goods_name == $scope.keywords ){
+                        temp.push(d);
+                    }
+                });
+            });
+            if(temp.length){
+                $scope.use_data = temp;
+            }
+        };
+        $scope.keyDownEvent = function ($event){
+            if($event.keyCode == 13) {
+                $scope.search();
+            }
+        };
+    });
+
+    m.controller('arCtrl', function (ar,$scope) {
+        $scope.data = ar;
+        $scope.size = Object.keys($scope.data).length;
+    });
+
+    m.directive('myAddress', function(arServer){
+        return {
+            restrict: 'E',
+            scope: {
+                data: '=',
+                size: '='
+            },
+            templateUrl: 'ad.html',
+            link: function ($scope) {
+                $scope.user_id = $scope.data[0].user_id;
+                $scope.se_province = $scope.se_city = $scope.se_district = {};
+                $scope.se_province.region_name = '请选择';
+                //取所有的province省数据
+                arServer.getRegion(1,1).then(function(res){
+                    $scope.province = res.data;
+                });
+
+                //弹出 添加收货地址框
+                $scope.add = function(){
+                    if($scope.size == 10){
+                        alert("最多只能创建10个地址，您已达上限。")
+                    }else {
+                        $scope.show = true;
+                        $scope.action = "添加收货地址";
+                    }
+                };
+
+                //弹出 编辑收货地址框 数据初始化
+                $scope.edit = function(item){
+                    $scope.address_id = item.address_id;
+                    $scope.name= item.consignee;
+                    $scope.address=item.address;
+                    $scope.mobile=item.mobile;
+                    $scope.address_name=item.address_name;
+                    $scope.tel=item.tel;
+                    $scope.email=item.email;
+                    $scope.se_province = {region_id:item.province,region_name:item.province_name};
+                    $scope.temp_province = $scope.se_province.region_name;//保存选择好的省名称，如用户没打地址别名，可以用上
+                    $scope.se_city = {region_id:item.city,region_name:item.city_name};
+                    $scope.se_district = {region_id:item.district,region_name:item.district_name}
+                    $scope.sjld = [$scope.se_province.region_id,$scope.se_city.region_id,$scope.se_district.region_id];
+                    $scope.sjld_show = $scope.se_province.region_name + '/' +$scope.se_city.region_name + '/' + $scope.se_district.region_name;//用于显示
+                    $scope.var = 'province';
+                    arServer.getRegion(2,$scope.se_province.region_id).then(function(res){
+                        $scope.city = res.data;
+                    });
+                    arServer.getRegion(3,$scope.se_city.region_id).then(function(res){
+                        $scope.district = res.data;
+                    });
+
+                    $scope.show = true;
+                    $scope.action = "编辑收货地址";
+                };
+
+                $scope.setDt = function(address_id) {
+                    arServer.setDt(address_id).then(function(res){
+                        if(res.data == "done") {
+                            arServer.ar($scope.user_id).then(function (res) {
+                                $scope.data = res.data;
+                            });
+                        }else{
+                            alert("error-setDt")
+                        }
+                    })
+                };
+
+                //清空XX收货地址弹出框 数据
+                $scope.setEmpty = function() {
+                    $scope.show = false;
+                    $scope.address_id=$scope.name=$scope.address=$scope.mobile=$scope.address_name=$scope.tel=$scope.email=$scope.temp_province= '';
+                    $scope.sjld = $scope.se_province = $scope.se_city = $scope.se_district = {};
+                    $scope.se_province.region_name =  '请选择';
+                    $scope.sjld_show='--请选择--';
+                    $scope.var = 'province';
+                };
+
+                /* 三级联动处理
+                @param region_type 1－省 2－市 3－区
+                @param region_name 具体地方名字，包含所有省市区的名字，例如北京、海珠区
+                @param region_id 表自增ID
+                 */
+                $scope.setSJLD = function($event,region_type,region_name,region_id){
+                    if($event.button==0) {
+                        switch (region_type) {
+                            case 1:
+                                $scope.se_province = {region_id:region_id,region_name:region_name};
+                                arServer.getRegion(2,region_id).then(function(res){
+                                    $scope.city = res.data;
+                                });
+                                $scope.var = 'city';
+                                $scope.se_city.region_name = $scope.se_district.region_name ='请选择';
+                                break;
+                            case 2:
+                                $scope.se_city = {region_id:region_id,region_name:region_name};
+                                arServer.getRegion(3,region_id).then(function(res){
+                                    $scope.district = res.data;
+                                });
+                                $scope.var = 'district';
+                                $scope.se_district.region_name = '请选择';
+                                break;
+                            case 3:
+                                $scope.se_district = {region_id:region_id,region_name:region_name};
+                                $scope.area = false;
+                                $scope.sjld = [$scope.se_province.region_id,$scope.se_city.region_id,$scope.se_district.region_id];//保存选择好的，省市区
+                                $scope.temp_province = $scope.se_province.region_name;//保存选择好的省名称，如用户没打地址别名，可以用上
+                                $scope.sjld_show = $scope.se_province.region_name + '/' +$scope.se_city.region_name + '/' + $scope.se_district.region_name;//用于显示
+                                break;
+                        }
+                    }
+                };
+
+                $scope.mouseDownEvent = function ($event){
+                    $event.stopPropagation();
+                };
+
+                $scope.saveAddressName = function (v){
+                    if(v.temp_address_name && v.temp_address_name !== v.address_name){
+                        arServer.editArName(v.address_id,v.temp_address_name).then(function(res){
+                            if(res.data !== "done"){
+                                alert(res.data);
+                            }
+                        });
+                        v.address_name = v.temp_address_name;
+                    }
+                    v.temp_address_name = v.address_name;
+                    $("div.alias-form").hide();
+                };
+
+                $scope.save = function() {
+                    $scope.name_err=$scope.sjld_err=$scope.address_err=$scope.mobile_errr=$scope.mobile_err=$scope.email_err =$scope.address_name_err="";
+                    //var name = $.trim($scope.name),
+                    //    address = $.trim($scope.address),
+                    //    mobile = $.trim($scope.mobile),
+                    //    tel = $.trim($scope.tel),
+                    //    email = $.trim($scope.email),
+                    //    address_name = $.($scope.address_name);
+                    var err = false,
+                        reg = /^[\u4e00-\u9fa5a-zA-Z]{1,60}$/;
+                    if(!$scope.name) {
+                        $scope.name_err = "请填写收货人名字";
+                        err = true;
+                    }else if(!reg.test($scope.name)) {
+                        $scope.name_err = "名字只能是中文或英文";
+                        err = true;
+                    }
+
+                    if(!$scope.sjld){
+                        $scope.sjld_err = "请选择完整区域信息";
+                        err = true;
+                    }
+
+                    reg = /^[\u4e00-\u9fa50-9a-zA-Z-_]{1,120}$/;
+                    if(!$scope.address) {
+                        $scope.address_err = "请填写详细收货地址";
+                        err = true;
+                    }else if(!reg.test($scope.address)) {
+                        $scope.address_err = "只能填写中文英文或数字";
+                        err = true;
+                    }
+
+                    reg = /^[0-9]{11}$/;
+                    if(!$scope.mobile) {
+                        $scope.mobile_err = "请填写手机号码";
+                        err = true;
+                    }else if (!reg.test($scope.mobile)){
+                        $scope.mobile_err = "手机号码格式错误";
+                        err = true;
+                    }
+                    reg = /^[0-9-]{8,15}$/;
+                    if($scope.tel && !reg.test($scope.tel)) {
+                        $scope.mobile_err = "固定电话格式错误";
+                        err = true;
+                    }
+
+                    reg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+                    if ($scope.email &&!reg.test($scope.email)){
+                        $scope.email_err = "邮件地址格式错误";
+                        err = true;
+                    }
+
+                    reg = /^[\u4e00-\u9fa50-9a-zA-Z-]{1,50}$/;
+                    if ($scope.address_name && !reg.test($scope.address_name)){
+                        $scope.address_name_err = "地址别名只是能是中文、英文或数字";
+                        err = true;
+                    }
+
+                    //自动填写“地址别名”，如果是修改，是自动填写的地址别名都带－，强制更新
+                    if(!$scope.address_name || $scope.address_name.indexOf("-") != -1) {
+                        $scope.address_name = $scope.name + '-' + $scope.temp_province;
+                    }
+                    if(!err){
+                        if(!$scope.address_id) {
+                            arServer.addAddress($scope.user_id, $scope.name, $scope.sjld, $scope.address, $scope.mobile, $scope.address_name, $scope.tel, $scope.email)
+                                .then(function (res) {
+                                    if (res.data == "done") {
+                                        arServer.ar($scope.user_id).then(function (res) {
+                                            $scope.data = res.data;
+                                            $scope.size = Object.keys($scope.data).length;
+                                        });
+                                    }
+                                })
+                        }else {
+                            arServer.editAddress($scope.address_id,$scope.user_id, $scope.name, $scope.sjld, $scope.address, $scope.mobile, $scope.address_name, $scope.tel, $scope.email)
+                                .then(function (res) {
+                                    if (res.data == "done") {
+                                        arServer.ar($scope.user_id).then(function (res) {
+                                            $scope.data = res.data;
+                                        });
+                                    }
+                                })
+                        }
+                        $scope.setEmpty();
+                    }
+                };
+
+                $scope.remove = function(aid){
+                    if(confirm("你确定要删除该收货地址吗？")) {
+                        arServer.delAddress(aid).then(function(res) {
+                            if(res.data == "done") {
+                                arServer.ar($scope.user_id).then(function(res){
+                                    $scope.data = res.data;
+                                    $scope.size = Object.keys($scope.data).length;
+                                });
+                            }
+                        })
+                    }
+                }
+            }
+        }
+    });
+
+    m.directive('aliasShow', function () {
+        'use strict';
+
+        return function (scope, elem, attrs) {
+            elem.bind('mousedown', function ($event) {
+                $event.stopPropagation();// 阻止其他按键事件冒泡
+                if($event.button==0){
+                    $("div.alias-form").hide();
+                    elem.siblings("div.alias-form").show();
+                }
+            });
+        };
+    });
+    m.directive('aliasHide', function () {
+        'use strict';
+
+        return function (scope, elem, attrs) {
+            elem.bind('mousedown', function ($event) {
+                if($event.button==0){
+                    $("div.alias-form").hide();
+                }
+            });
+        };
+    });
+</script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/owl-carousel/owl.carousel.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/libs.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/cart_nav.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/search.js"></script>
+<!-- Theme files
+============================================ -->
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/so_megamenu.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/addtocart.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/application.js"></script>
+</body></html>

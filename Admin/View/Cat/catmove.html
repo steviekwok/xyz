@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ECSHOP 管理中心 - 商品分类 </title>
+    <meta name="robots" content="noindex, nofollow">
+    <link rel="shortcut icon" href="__ROOT__/favicon.ico" />
+    <link rel="bookmark" href="__ROOT__/favicon.ico" type="image/x-icon" />
+    <link href="__PUBLIC__/Admin/css/general.css" rel="stylesheet" type="text/css" />
+    <link href="__PUBLIC__/Admin/css/main.css" rel="stylesheet" type="text/css" />
+    <!--script type="text/javascript" src="__PUBLIC__/js/transport.js"></script-->
+</head>
+<body>
+<h1>
+    <span class="action-span"><a href="__ROOT__/index.php/Admin/cat/catlist">商品分类</a></span>
+    <span class="action-span1"><a href="__ROOT__/index.php/Admin/index/main">ECSHOP 管理中心</a> </span><span id="search_id" class="action-span1"> - 转移商品 </span>
+</h1>
+<div class="main-div">
+    <form action="" method="post" name="theForm" enctype="multipart/form-data">
+        <table width="100%">
+            <tr>
+                <td>
+                    <div style="font-weight:bold">
+                        <img src="__PUBLIC__/Admin/images/notice.gif" width="16" height="16" border="0" />
+                        什么是转移商品分类?
+                    </div>
+                    <ul>
+                        <li>在添加商品或者在商品管理中,如果需要对商品的分类进行变更,那么你可以通过此功能,正确管理你的商品分类。</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <strong>从此分类</strong>&nbsp;&nbsp;
+                    <select name="cat_id">
+                        <option value="0">请选择...</option>
+                        <volist name="catlist" id="c">
+                            <if condition="$cat_id==$c['cat_id']">
+                            <option value="{$c['cat_id']}" selected><for start="0" end="$c['lv']">&nbsp;&nbsp;</for>
+                                {$c['cat_name']}</option>
+                            <else/>
+                            <option value="{$c['cat_id']}"><for start="0" end="$c['lv']">&nbsp;&nbsp;</for>
+                                {$c['cat_name']}</option>
+                            </if>
+                        </volist>
+                    </select>&nbsp;&nbsp;
+                    <strong>转移到</strong>
+                    <select name="target_cat_id">
+                        <option value="0">请选择...</option>
+                        <volist name="catlist" id="c">
+                            <if condition="$cat_id==$c['cat_id']">
+                                <option value="{$c['cat_id']}" selected><for start="0" end="$c['lv']">&nbsp;&nbsp;</for>
+                                    {$c['cat_name']}</option>
+                                <else/>
+                                <option value="{$c['cat_id']}"><for start="0" end="$c['lv']">&nbsp;&nbsp;</for>
+                                    {$c['cat_name']}</option>
+                            </if>
+                        </volist>
+                    </select>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="submit" name="move_cat" value="开始转移" class="button">
+                    <input type="reset" value="重置" class="button" />
+                    <!--input type="hidden" name="act" value="{$form_act}" /-->
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

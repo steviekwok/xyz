@@ -1,0 +1,480 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Basic page needs
+	============================================ -->
+	<title>{$cat_name} - 步步坚商城</title>
+	<meta charset="utf-8">
+    <meta name="keywords" content="" />
+    <meta name="author" content="Magentech">
+    <meta name="robots" content="index, follow" />
+   
+	<!-- Mobile specific metas
+	============================================ -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	
+	<!-- Favicon
+	============================================ -->
+	<link rel="bookmark" href="__ROOT__/favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="__ROOT__/favicon.ico" />
+
+    <!-- Libs CSS
+	============================================ -->
+	<link href="__PUBLIC__/Home/css/style.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="__PUBLIC__/Home/templet/css/bootstrap/css/bootstrap.min.css">
+	<link href="__PUBLIC__/Home/templet/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+	<link href="__PUBLIC__/Home/templet/js/datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet">
+	<link href="__PUBLIC__/Home/templet/css/themecss/lib.css" rel="stylesheet">
+	<link href="__PUBLIC__/Home/templet/js/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+	
+	<!-- Theme CSS
+	============================================ -->
+	<link href="__PUBLIC__/Home/templet/css/themecss/so_megamenu.css" rel="stylesheet">
+	<link href="__PUBLIC__/Home/templet/css/themecss/so-categories.css" rel="stylesheet">
+	<link href="__PUBLIC__/Home/templet/css/themecss/so-listing-tabs.css" rel="stylesheet">
+	<link id="color_scheme" href="__PUBLIC__/Home/templet/css/theme.css" rel="stylesheet">
+	<link href="__PUBLIC__/Home/templet/css/responsive.css" rel="stylesheet">
+
+</head>
+
+<body class="res layout-subpage banners-effect-6">
+
+    <div id="wrapper" class="wrapper-full" ng-app="app">
+	<!-- Header Container  -->
+		<include file="Common/header"/>
+	<!-- //Header Container  -->
+	<!-- Main Container  -->
+	<div class="main-container container">
+		<ul class="breadcrumb">
+			<li><a href="__ROOT__/"><i class="fa fa-home"></i></a></li>
+			<foreach name="mbx" item='m'>
+				<li><a href="{:U('Home/cat/cat',array('cat_id'=>$m['cat_id']))}">{$m['cat_name']}</a></li>
+			</foreach>
+		</ul>
+
+		<div class="row">
+			<!--Left Part Start -->
+			<aside class="col-sm-4 col-md-3" id="column-left">
+				<div class="module latest-product titleLine">
+					<h3 class="modtitle">销售量</h3>
+					<div class="modcontent ">
+						<foreach name='sale' item="s">
+						<div class="product-latest-item">
+							<div class="media">
+								<div class="media-left">
+									<a href="{:U('Home/goods/goods/',array('goods_id'=>$s['goods_id']))}">
+										<img src="__ROOT__{$s['thumb_img']}" alt="{$s.goods_name}" title="{$s.goods_name}" class="img-responsive" style="width: 100px; height: 82px;"></a>
+								</div>
+								<div class="media-body">
+									<div class="caption">
+										<h4>
+											<a href="{:U('Home/goods/goods/',array('goods_id'=>$s['goods_id']))}">{$s.goods_name}</a>
+										</h4>
+										<div class="price">
+											<span class="price-new">￥{$s['shop_price']}</span>
+										</div>
+										<div class="rating-box">
+											已售出<span class="sale_count">{$s['goods_number']}</span>件</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						</foreach>
+					</div>
+				</div>
+				<div class="module latest-product titleLine">
+					<h3 class="modtitle">最近浏览</h3>
+					<div class="modcontent ">
+						<foreach name='history' item="h" key="k">
+						<div class="product-latest-item">
+							<div class="media">
+								<div class="media-left">
+									<a href="{:U('Home/goods/goods/',array('goods_id'=>$k))}">
+										<img src="__ROOT__{$h['thumb_img']}" alt="{$h['goods_name']}" title="{$h['goods_name']}" class="img-responsive" style="width: 100px; height: 82px;">
+									</a>
+								</div>
+								<div class="media-body">
+									<div class="caption">
+										<h4><a href="{:U('Home/goods/goods/',array('goods_id'=>$k))}">{$h['goods_name']}</a></h4>
+
+										<div class="price">
+											<span class="price-new">￥{$h['shop_price']}</span>
+										</div>
+										<div class="ratings">
+											<div class="rating-box">
+												<span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span>
+												<span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span>
+												<span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span>
+												<span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span>
+												<span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						</foreach>
+					</div>
+
+				</div>
+				<div class="module">
+					<div class="modcontent clearfix">
+						<div class="banners">
+							<div>
+								<a href="#"><img src="__PUBLIC__/Home/images/theme/left-image-static.png" alt="left-image"></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</aside>
+			<!--Left Part End -->
+
+			<!--Middle Part Start-->
+<!--			<cat-show></cat-show>-->
+
+<!--			<script type="text/ng-template" id="Home-cat.html">-->
+			<div id="content" class="col-md-9 col-sm-8" >
+				<div class="products-category ng-cloak" ng-controller="catShow" ng-cloak >
+					<div class="category-derc">
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="banners">
+									<div>
+										<a href="#"><img src="__PUBLIC__/Home/images/theme/electronic-cat.png" alt="Apple Cinema 30&quot;"><br></a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Filters -->
+					<div class="product-filter filters-panel">
+						<div class="row">
+							<div class="col-md-2 visible-lg">
+								<div class="view-mode">
+									<div class="list-view">
+										<button class="btn btn-default grid active" data-view="grid" data-toggle="tooltip"  data-original-title="格子" ng-click="display = 0">
+											<i class="fa fa-th"></i></button>
+										<button class="btn btn-default list" data-view="list" data-toggle="tooltip" data-original-title="列表"  ng-click="display = 1">
+											<i class="fa fa-th-list"></i></button>
+									</div>
+								</div>
+							</div>
+							<div class="short-by-show form-inline text-right col-md-7 col-sm-8 col-xs-12">
+								<div class="form-group short-by">
+									<label class="control-label" for="input-sort">排序按:</label>
+									<select id="input-sort" class="form-control"
+											ng-model="sort_data" ng-change="sortChanged()">
+										<option value="" selected="selected">默认</option>
+										<option value="shop_price-asc">价格 (低 &gt; 高)</option>
+										<option value="shop_price-desc">价格 (高 &gt; 低)</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label class="control-label" for="input-limit">每页数目:</label>
+									<select id="input-limit" class="form-control" ng-model="itemsPerPage" ng-options="item for item in per" ng-change="pagesizeChanged()">
+									</select>
+								</div>
+							</div>
+							<div class="box-pagination col-md-3 col-sm-4 col-xs-12 text-right">
+								<ul uib-pagination boundary-links="true"  total-items="totalItems" ng-model="currentPage" max-size="3"
+									class="pagination-sm" items-per-page="itemsPerPage"	 previous-text="<" next-text=">"
+									first-text="|<" last-text=">|" ng-change="pageChanged()">
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- //end Filters -->
+					<!--changed listings-->
+					<div class="products-list row grid">
+						<div class="product-layout col-md-4 col-sm-6 col-xs-12" ng-repeat="g in goodslist" >
+							<div class="product-item-container">
+								<div class="left-block" ng-class="{'col-md-4':display}">
+									<div class="product-image-container  second_img ">
+										<a href="__ROOT__/Home/goods/goods/goods_id/{{g['goods_id']}}" class="lazy">
+											<img unveil ng-src="__ROOT__{{g['goods_img']}}" data-src=""  src=""  alt="{{g['goods_name']}}" class="img-responsive" />
+										</a>
+									</div>
+								</div>
+								<div class="right-block" ng-class="{'col-md-8':display}">
+									<div class="caption">
+										<h4><a href="__ROOT__/Home/goods/goods/goods_id/{{g['goods_id']}}">{{g['goods_name']}}</a></h4>
+										<div class="ratings">
+											<div class="rating-box">
+												<span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span>
+												<span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span>
+												<span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span>
+												<span class="fa fa-stack"><i class="fa fa-star fa-stack-1x"></i><i class="fa fa-star-o fa-stack-1x"></i></span>
+												<span class="fa fa-stack"><i class="fa fa-star-o fa-stack-1x"></i></span>
+											</div>
+										</div>
+
+										<div class="price">
+											<span class="price-new">￥{{g.shop_price}}</span>
+										</div>
+									</div>
+
+									<div class="button-group">
+										<button class="addToCart" type="button" data-toggle="tooltip" title="加入购物车" cat-click="add('cart','{{g.goods_id}}')">
+											<i class="fa fa-shopping-cart"></i> <span class="hidden-xs">买买买！</span>
+										</button>
+										<button class="wishlist" type="button" data-toggle="tooltip" title="加入心愿单" cat-click="add('wishlist','{{g.goods_id}}')"><i class="fa fa-heart"></i></button>
+										<button class="compare" type="button" data-toggle="tooltip" title="加入对比列表" cat-click="add('compare','{{g.goods_id}}')"><i class="fa fa-exchange"></i></button>
+									</div>
+								</div><!-- right block -->
+							</div>
+						</div>
+<!--
+						<div class="clearfix visible-sm-block"></div><div class="clearfix visible-xs-block"></div>
+-->
+					</div>					<!--// End Changed listings-->
+					<!-- Filters -->
+					<div class="product-filter product-filter-bottom filters-panel" >
+						<div class="row">
+							<div class="col-md-2 hidden-sm hidden-xs">
+							</div>
+							<div class="short-by-show text-center col-md-7 col-sm-8 col-xs-12">
+								<div class="form-group" style="margin: 7px 10px">共{{totalItems}}个商品，显示 {{leftRow}} 到 {{rightRow}}
+									(第{{currentPage}}页/共{{numPage}}页)</div>
+							</div>
+							<div class="box-pagination col-md-3 col-sm-4 text-right">
+								<ul uib-pagination boundary-links="true"  total-items="totalItems" ng-model="currentPage" max-size="3"
+									class="pagination-sm" items-per-page="itemsPerPage" previous-text="<" next-text=">"
+									first-text="|<" last-text=">|" ng-change="pageChanged()">
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- //end Filters -->
+
+				</div>
+			</div>
+		<!--	</script>-->
+		</div>
+		<!--Middle Part End-->
+	</div>
+	<!-- //Main Container -->
+	
+
+	<!-- Footer Container -->
+		<include file="Common/footer"/>
+	<!-- //end Footer Container -->
+
+    </div>
+
+	<!-- Cpanel Block -->
+	<div id="sp-cpanel_btn" class="isDown visible-lg">
+	<i class="fa fa-cog"></i>
+</div>
+
+<div id="sp-cpanel" class="sp-delay">
+	<h2 class="sp-cpanel-title"> Demo Options <span class="sp-cpanel-close"> <i class="fa fa-times"> </i></span></h2>
+	<div id="sp-cpanel_settings">
+		<div class="panel-group">
+			<label>Color Scheme</label>
+			<div class="group-schemes" >
+				<span data-scheme="default"  class="item_scheme selected"><span style="background: #e8622d;"></span></span>
+				<span data-scheme="blue" class="item_scheme"><span style="background: #478bca;"></span></span>
+				<span data-scheme="boocdo"  class="item_scheme"><span style="background: #e54e4e;"></span></span>
+				<span data-scheme="cyan" class="item_scheme"><span style="background: #1ea181;"></span></span>
+				<span data-scheme="green" class="item_scheme "><span style="background: #52a633;"></span></span>
+
+			 </div>
+		</div>
+
+		<div class="panel-group ">
+			<label>Header style</label>
+			<div class="group-boxed">
+				<select id="change_header_type" name="cpheaderstype" class="form-control" onchange="headerTypeChange(this.value);">
+					<option value="header-Home1" >Header 1</option>
+					<option value="header-Home2" >Header 2</option>
+					<option value="header-Home3" >Header 3</option>
+					<option value="header-Home4" >Header 4</option>
+				</select>
+			</div>
+		</div>
+
+
+		<div class="panel-group ">
+			<label>Layout Box</label>
+			<div class="group-boxed">
+				<select id="cp-layoutbox" name="cplayoutbox" class="form-control" onchange="changeLayoutBox(this.value);">
+					<option value="full">Wide</option>
+					<option value="boxed">Boxed</option>
+					<option value="iframed">Iframed</option>
+					<option value="rounded">Rounded</option>
+				</select>
+			</div>
+		</div>
+
+        <div class="panel-group">
+			<label>Body Image</label>
+
+			<div class="group-pattern">
+				<div data-pattern="28"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/28.png" alt="pattern 28"></div>
+				<div data-pattern="29"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/29.png" alt="pattern 29"></div>
+				<div data-pattern="30"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/30.png" alt="pattern 30"></div>
+				<div data-pattern="31"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/31.png" alt="pattern 31"></div>
+				<div data-pattern="32"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/32.png" alt="pattern 32"></div>
+				<div data-pattern="33"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/33.png" alt="pattern 33"></div>
+				<div data-pattern="34"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/34.png" alt="pattern 34"></div>
+				<div data-pattern="35"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/35.png" alt="pattern 35"></div>
+				<div data-pattern="36"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/36.png" alt="pattern 36"></div>
+				<div data-pattern="37"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/37.png" alt="pattern 37"></div>
+				<div data-pattern="38"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/38.png" alt="pattern 38"></div>
+				<div data-pattern="39"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/39.png" alt="pattern 39"></div>
+				<div data-pattern="40"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/40.png" alt="pattern 40"></div>
+				<div data-pattern="41"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/41.png" alt="pattern 41"></div>
+				<div data-pattern="42"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/42.png" alt="pattern 42"></div>
+				<div data-pattern="43"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/43.png" alt="pattern 43"></div>
+				<div data-pattern="44"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/44.png" alt="pattern 44"></div>
+				<div data-pattern="45"  class="img-pattern"><img src="__PUBLIC__/Home/templet/images/patterns/45.png" alt="pattern 45"></div>
+			</div>
+			<p class="label-sm">Background only applies for Boxed,Framed, Rounded Layout</p>
+		</div>
+
+		<div class="reset-group">
+		    <a href="__SELF__" class="btn btn-success " onclick="ResetAll()">Reset</a>
+		</div>
+
+	</div>
+
+</div>
+
+<link rel='stylesheet' property='stylesheet'  href='__PUBLIC__/Home/templet/css/themecss/cpanel.css' type='text/css' media='all' />
+
+	<!-- Preloading Screen -->
+	<div id="loader-wrapper">
+		<div id="loader"></div>
+		<div class="loader-section section-left"></div>
+		<div class="loader-section section-right"></div>
+	 </div>
+	<!-- End Preloading Screen -->
+	
+<!-- Include Libs & Plugins
+	============================================ -->
+    <!-- Placed at the end of the document so the pages load faster -->
+	<script type="text/javascript" src="__PUBLIC__/Home/templet/js/jquery-2.2.4.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/Home/js/angular.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/Home/js/angular-ui-bootstrap.js"></script>
+	<script>
+        var root_url = '__ROOT__';
+        var m = angular.module('app', ['ui.bootstrap']);
+	</script>
+	<script type="text/javascript" src="__PUBLIC__/Home/templet/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/Home/templet/js/owl-carousel/owl.carousel.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/libs.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/Home/templet/js/unveil/jquery.unveil.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/Home/templet/js/countdown/jquery.countdown.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/Home/templet/js/dcjqaccordion/jquery.dcjqaccordion.2.8.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/Home/templet/js/datetimepicker/moment.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/Home/templet/js/datetimepicker/bootstrap-datetimepicker.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/Home/templet/js/jquery-ui/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/Home/js/cart_nav.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/Home/js/search.js"></script>
+	<!-- Theme files
+	============================================ -->
+	<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/so_megamenu.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/addtocart.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/application.js"></script>
+	<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/cpanel.js"></script>
+    <script>
+		m.factory('catServer', function($http){
+            return {
+                getCat: function(cat_id, p, sort_data="", per_page){
+                    return $http({
+                        method:'post',
+                        url:root_url+'/Home/Cat/getCatGoods',
+                        data:$.param({cat_id:cat_id, p:p, sort_data:sort_data, per_page:per_page}),
+                        headers:{'Content-type':'application/x-www-form-urlencoded'},
+                        cache:true
+                    })
+                },
+            };
+        });
+        m.controller('catShow', function ($scope, catServer) {
+            var cat_id = {$cat_id};
+			$scope.display = {$display} ? {$display} : 0;//0-list 1-grid
+            $scope.per = [9, 15, 30, 50];
+            $scope.itemsPerPage = $scope.per[0];//使select选择框默认第一个，不这样会留一个空白且默认选择
+
+            catServer.getCat(cat_id,1,'',$scope.itemsPerPage).then(function(res){
+                $scope.goodslist = res.data.goodslist;
+                $scope.currentPage = res.data.current_page;
+                $scope.totalItems = res.data.total_items;
+                $scope.numPage = res.data.total_page;
+                $scope.leftRow = res.data.left_row;
+                $scope.rightRow = res.data.right_row;
+            });
+
+            $scope.pageChanged = function() {
+                catServer.getCat(cat_id, $scope.currentPage, $scope.sort_data, $scope.itemsPerPage).then(function(res) {
+                    $scope.goodslist = res.data.goodslist;
+                    $scope.currentPage = res.data.current_page;
+                    $scope.leftRow = res.data.left_row;
+                    $scope.rightRow = res.data.right_row;
+                });
+            };
+
+            $scope.sortChanged = function() {
+                catServer.getCat(cat_id, $scope.currentPage, $scope.sort_data, $scope.itemsPerPage).then(function(res) {
+                    $scope.goodslist = res.data.goodslist;
+                });
+            };
+
+            $scope.pagesizeChanged = function() {
+                //如果调整页面显示数量后，现在页数已没有数据，则把现在页数调为第一页
+                if(($scope.currentPage -1) * $scope.pagesize > $scope.totalItems)
+					$scope.currentPage = 1;
+
+                catServer.getCat(cat_id, $scope.currentPage, $scope.sort_data, $scope.itemsPerPage).then(function(res) {
+                    $scope.totalItems = res.data.total_items;
+                    $scope.goodslist = res.data.goodslist;
+                    $scope.numPage = res.data.total_page;
+                    $scope.leftRow = res.data.left_row;
+                    $scope.rightRow = res.data.right_row;
+                });
+			};
+
+			$scope.add = function(w,goods_id){
+				switch(w){
+				    case 'cart':
+				        cart.add(goods_id);
+				        break;
+					case 'wishlist':
+					    wishlist.add(goods_id);
+					    break;
+					case 'compare':
+					    compare.add(goods_id);
+					    break;
+				}
+			}
+        });
+
+        m.directive('unveil', function () {
+            return {
+                link: function (scope, element, attrs) {
+                    attrs.$set('dataSrc',attrs.ngSrc);
+                    $(element).unveil(0, function () {
+                        $(this).load(function () {
+                            $(this).parent().addClass("lazy-loaded");
+                        })
+                    })
+                }
+            };
+        });
+
+        m.directive('catClick', function () {
+            'use strict';
+
+            return function (scope, elem, attrs) {
+                    elem.bind('mousedown', function (event) {
+                        if(event.button==0){
+                            scope.$apply(attrs.catClick);
+						}
+                    });
+            };
+        });
+	</script>
+</body>
+</html>
+

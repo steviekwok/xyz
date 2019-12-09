@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>ECSHOP 管理中心 - 商品分类 </title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="shortcut icon" href="__ROOT__/favicon.ico" />
+  <link rel="bookmark" href="__ROOT__/favicon.ico" type="image/x-icon" />
+  <link href="__PUBLIC__/Admin/css/general.css" rel="stylesheet" type="text/css" />
+  <link href="__PUBLIC__/Admin/css/main.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="__PUBLIC__/js/jquery-3.3.1.min.js"></script>
+  <script src="__PUBLIC__/js/jquery.json.js"></script>
+  <script type="text/javascript" src="__PUBLIC__/js/utils.js"></script>
+  <script type="text/javascript" src="__PUBLIC__/js/transport.js"></script>
+  <script> var root_url = '__ROOT__'; </script>
+  <script type="text/javascript" src="__PUBLIC__/Admin/js/listtable.js"></script>
+</head>
+<body>
+
+<h1>
+<span class="action-span"><a href="__ROOT__/index.php/Admin/cat/catadd">添加分类</a></span>
+<span class="action-span1"><a href="__ROOT__/index.php/Admin/index/main">ECSHOP 管理中心</a> </span><span id="search_id" class="action-span1"> - 商品分类 </span>
+<div style="clear:both"></div>
+</h1>
+<form method="post" action="" name="listForm">
+<div class="list-div" id="listDiv">
+
+<table width="100%" cellspacing="1" cellpadding="2" id="list-table">
+  <tr>
+    <th>分类名称</th>
+    <th>商品数量</th>
+    <!--th>数量单位</th-->
+    <th>导航栏</th>
+    <th>是否显示</th>
+
+    <!--th>价格分级</th-->
+    <th>排序</th>
+    <th>操作</th>
+  </tr>
+  <foreach name="catlist" item="cat">
+      <tr align="center" class="0" id="0_1" id = 'tr_1'>
+    <td align="left" class="first-cell" style = 'padding-left="0"'>
+            <img src="__PUBLIC__/Admin/images/menu_minus.gif" id="icon_0_1" width="9" height="9" border="0"  style="margin-left:{$cat['lv']*2}em"/>
+
+            <span><a href="{:U('Admin/goods/goodslist',array('cat_id'=>$cat['cat_id']))}" >{$cat.cat_name}</a></span>
+        </td>
+    <td width="10%">{$cat.num}</td>
+    <!--td width="10%"><span>&nbsp;&nbsp;&nbsp;&nbsp;</span></td-->
+
+      <if condition="$cat['show_in_nav'] eq 1">
+        <td align="center" width="10%"><img src="__PUBLIC__/Admin/images/yes.gif" onclick="listTable.toggle(this, 'toggle_show_in_nav', {$cat.cat_id})"  /></td>
+        <else />
+        <td align="center" width="10%"><img src="__PUBLIC__/Admin/images/no.gif" onclick="listTable.toggle(this, 'toggle_show_in_nav', {$cat.cat_id})" /></td>
+        </if>
+
+      <if condition="$cat['is_show'] eq 1">
+        <td align="center" width="10%"><img src="__PUBLIC__/Admin/images/yes.gif" onclick="listTable.toggle(this, 'toggle_is_show', {$cat.cat_id})"  /></td>
+        <else />
+        <td align="center" width="10%"><img src="__PUBLIC__/Admin/images/no.gif" onclick="listTable.toggle(this, 'toggle_is_show', {$cat.cat_id})" /></td>
+        </if>
+    <!--td><span>5</span></td-->
+
+        <td width="10%" align="right"><span onclick="listTable.edit(this, 'edit_sort_order', {$cat.cat_id})">{$cat.sort_order}</span></td>
+    <td width="24%" align="center">
+      <a href="{:U('Admin/cat/catmove',array('cat_id'=>$cat['cat_id']))}">转移商品</a> |
+      <a href="{:U('Admin/cat/catedit',array('cat_id'=>$cat['cat_id']))}">编辑</a> |
+      <a href="javascript:onclick=remove({$cat.cat_id})" title="移除">移除</a>
+    </td>
+  </tr>
+  </foreach>
+  </table>
+</div>
+</form>
+
+<include file="./Index/list"/>
+<script>
+    function remove(id){
+        if(confirm("您确定要删除该分类吗？"))
+            window.location="__URL__/catdel/cat_id/"+id;
+    }
+</script>
+</body>
+</html>

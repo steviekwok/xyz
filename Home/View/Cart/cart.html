@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- Basic page needs
+	============================================ -->
+    <title>购物车 - 步步坚商城</title>
+    <meta charset="utf-8">
+    <meta name="keywords" content="" />
+    <meta name="author" content="Magentech">
+    <meta name="robots" content="index, follow" />
+
+    <!-- Mobile specific metas
+    ============================================ -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Favicon
+    ============================================ -->
+    <link rel="bookmark" href="__ROOT__/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="__ROOT__/favicon.ico" />
+
+    <!-- Libs CSS
+	============================================ -->
+    <link href="__PUBLIC__/Home/css/cart.css" rel="stylesheet" type="text/css">
+    <link href="__PUBLIC__/Home/css/style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="__PUBLIC__/Home/templet/css/bootstrap/css/bootstrap.min.css">
+    <link href="__PUBLIC__/Home/templet/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Theme CSS
+    ============================================ -->
+    <link href="__PUBLIC__/Home/templet/css/themecss/so_megamenu.css" rel="stylesheet">
+    <link id="color_scheme" href="__PUBLIC__/Home/templet/css/theme.css" rel="stylesheet">
+    <link href="__PUBLIC__/Home/templet/css/responsive.css" rel="stylesheet">
+
+</head>
+<body class="res layout-subpage">
+<div id="wrapper" class="wrapper-full" ng-app="app">
+    <!-- Header Container  -->
+    <include file="Common/header"/>
+    <!-- //Header Container  -->
+<if condition="$cart_qty gt 0">
+    <form method="post" action="__ROOT__/Home/order/checkout" id="listForm">
+    <div class="cart-warp">
+        <div class="cart-main">
+            <div class="cart-thead">
+                <div class="column t-checkbox">
+                    <div class="cart-checkbox">
+                        <input type="checkbox" name="toggle-checkboxes" class="checkbox" />
+                    </div>全选
+                </div>
+                <div class="column t-goods">商品</div>
+                <div class="column t-price">单价</div>
+                <div class="column t-quantity">数量</div>
+                <div class="column t-sum">小计</div>
+                <div class="column t-action">操作</div>
+            </div>
+            <div class="cart-list">
+                <div class="item-list">
+                    <foreach name="cart_item" item="goods">
+                        <div class="item-form clearfix" id="item{$goods['goods_id']}">
+                            <div class="cell p-checkbox">
+                                <div class="cart-checkbox">
+                                    <notempty name="goods['is_select']">
+                                        <input type="checkbox" class="checkbox" name="checkItem[]" value="{$goods['goods_id']}" checked="checked">
+                                    <else/>
+                                        <input type="checkbox" class="checkbox" name="checkItem[]" value="{$goods['goods_id']}">
+                                    </notempty>
+                                </div>
+                            </div>
+                            <div class="cell p-goods clearfix">
+                                <div class="p-img">
+                                    <a href="{:U('Home/goods/goods',array('goods_id'=>$goods['goods_id']))}" target="_blank">
+                                        <img src="__ROOT__{$goods['thumb_img']}" alt="{$goods.goods_name}" width="80" height="80"/>
+                                    </a>
+                                </div>
+                                <div class="item-msg">
+                                    <div class="p-name">
+                                        <a href="{:U('Home/goods/goods',array('goods_id'=>$goods['goods_id']))}" target="_blank">
+                                        {$goods.goods_name}</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="cell p-props">
+                                <div class="props-txt">颜色：黑色</div>
+                            </div>
+                            <div class="cell p-price">
+                                <strong>¥{$goods.shop_price}</strong>
+                                <span style="display:none;">{$goods['goods_weight']}</span>
+                            </div>
+                                <div class="cell p-quantity" id="{$goods['goods_id']}">
+                                <div class="quantity-form">
+                                    <a href="javascript:void(0);" class="decrement">-</a>
+                                    <input type="text" class="itxt" value="{$goods.num}" autocomplete="off" />
+                                    <a href="javascript:void(0);" class="increment">+</a>
+                                </div>
+                                <div class="quantity-txt">有货</div>
+                            </div>
+                            <div class="cell p-sum">
+                                <strong>¥{$goods['shop_price']*$goods['num']}</strong>
+                                <span class="weight">{$goods['goods_weight']*$goods['num']}kg</span>
+                            </div>
+                            <div class="cell p-ops">
+                                <a href="javascript:remove({$goods['goods_id']})" class="cart-remove">删除</a>
+                            </div>
+                        </div>
+                    </foreach>
+                </div>
+            </div>
+        </div>
+        <div id="cart-floatbar">
+            <div class="toolbar-wrap">
+                <div class="options-box">
+                    <div class="select-all">
+                        <div class="cart-checkbox">
+                            <input type="checkbox" id="toggle-checkboxes_down" name="toggle-checkboxes" class="checkbox" />
+                        </div>全选
+                    </div>
+                    <div class="operation">
+                        <a href="javascript:void(0)" class="remove-batch">删除选中的商品</a>
+                        <a href="javascript:void(0)" class="clr_nosale">清除下柜商品</a>
+                    </div>
+                    <div class="toolbar-right">
+                        <div class="btn-area pull-right">
+                            <if condition="che()">
+                                <a href="javascript:void(0)" id="login-submit" class="submit-btn">结&nbsp;算</a>
+                                <else/>
+                                <a href="javascript:void(0)" id="nologin-submit" class="submit-btn fr">结&nbsp;算</a>
+                            </if>
+                        </div>
+                        <div class="price-sum">
+                            <span class="txt txt-new">总价：</span>
+                            <span class="price">
+                                <em>¥{$total}</em>
+                            </span>
+                            <br>
+                            <span class="txt">已节省：</span>
+                            <span class="price" id="save">-{$save}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+<else/>
+    <div class="w">
+        <div class="cart-empty">
+            <div class="message">
+                <ul>
+                    <if condition="che() heq false">
+                        <li class="txt">
+                            购物车内没有商品，登录后将显示您之前加入的商品。
+                        </li>
+                        <li>
+                        <a href="javascript:void(0)" class="btn-1 login-btn mr10">登录</a>
+                        <else/>
+                        <li class="txt">
+                            购物车内空空如也，去看看心仪的商品吧。
+                        </li>
+                        <li>
+                    </if>
+                        <a href="__ROOT__/" class="ftx-05">去购物></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</if>
+<div style=" height:1px; line-height:1px; clear:both;"></div>
+    <!-- Footer Container -->
+    <include file="Common/footer"/>
+    <!-- //end Footer Container -->
+</div>
+<!-- Include Libs & Plugins
+	============================================ -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/angular.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/angular-ui-bootstrap.js"></script>
+
+<script>
+    var root_url = '__ROOT__';
+    var m = angular.module('app', ['ui.bootstrap']);
+
+    //关弹出登录窗
+    function remove_ui_dialog(){
+        $('.ui-dialog').remove();
+    }
+
+    //自动判断，当复选框全选时，上下方[切换]复选框被选中，反之亦然
+    function autoCheck() {
+        var check = $('input[name="checkItem[]"]');
+        var toggle = $('input[name="toggle-checkboxes"]');//全选check切换复选框
+        var bool = true;
+        for(i=0;i<check.length;i++){
+            if(!check[i]['checked']){
+                bool = false;
+                break;
+            }
+        }
+        if(bool){
+            toggle.prop('checked',true);
+        }else if(!bool && toggle.prop('checked')){
+            toggle.prop('checked',false);
+        }
+    }
+
+    $(".login-btn").click(function(){
+        $.ajax({
+            type : "POST",
+            dataType : "json",
+            url : "__ROOT__/Home/user/logindialog",
+            success:function(res){
+                $('body').append(res);
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+                alert('error:loginbtn');
+            }
+        });
+    });
+
+    $("#nologin-submit").click(function(){
+        if($("div.cart-tips").length == 0) {
+            var check = $('input[name="checkItem[]"]');
+            var bool = false;
+            for (i = 0; i < check.length; i++) {
+                if (check[i]['checked']) {
+                    bool = true;
+                    break;
+                }
+            }
+            if (!bool) {
+                var txt = "<div class='cart-tips'><i class='iconfont' style='position:relative;color:orangered;font-size:20px;top:3px'>&#xe603;</i>请至少选择一件商品</div>";
+                $('.btn-area').after(txt);
+                setTimeout('$(".cart-tips").remove();', 2000);
+            } else {
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: "__ROOT__/Home/user/logindialog1",
+                    success: function (res) {
+                        $('body').append(res);
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert('error:submitbtn');
+                    }
+                });
+            }
+        }
+    });
+    $("#login-submit").click(function(){
+        if($("div.cart-tips").length == 0) {
+            var check = $('input[name="checkItem[]"]');
+            var bool = false;
+            for (i = 0; i < check.length; i++) {
+                if (check[i]['checked']) {
+                    bool = true;
+                    break;
+                }
+            }
+            if (!bool) {
+                var txt = "<div class='cart-tips'><i class='iconfont' style='position:relative;color:orangered;font-size:20px;top:3px'>&#xe603;</i>请至少选择一件商品</div>";
+                $('.btn-area').after(txt);
+                setTimeout('$(".cart-tips").remove();', 2000);
+                //$('.btn-area').after(txt);
+            } else {
+                var num="";
+                for(var i=0;i<4;i++){
+                    num+=Math.floor(Math.random()*10)
+                }
+                var rid = Math.round(new Date().getTime()/1000) + num;
+                $('#listForm').attr('action',$('#listForm').attr('action')+'?rid='+rid);
+
+                $('#listForm').submit();
+            }
+        }
+    });
+
+    //购物车数量是1令减号表面上（仅改变颜色）不可点
+    $(document).ready(function(){
+        $('.itxt').each(function(){
+            if($(this).val()=='1'){
+                $(this).siblings('a.decrement').addClass('disabled');
+            }
+        });
+        $('.checkbox').each(function(){
+            if($(this).attr("name") == 'checkItem[]'){
+                if($(this).is(':checked')){
+                    $(this).parents('.item-form').addClass('item-selected');
+                }
+            }
+        });
+        autoCheck();
+    });
+
+    $('a.decrement:not(a.disabled)').click(function(){
+        var itxt = $(this).siblings('.itxt');
+        var count = parseInt(itxt.attr('value'))-1;
+        var id = $(this).parents('.p-quantity').attr('id');
+        if(count == 0){
+            alert('购买数量错误');
+            return;
+        }
+        //改数量
+        itxt.attr('value',count);
+        itxt.val(count);
+        if(itxt.val()=='1'){
+            $(this).addClass('disabled');
+        }
+        //改商品*数量总金额、重量、total全商品金额
+        //var temp = $(this).parents('.p-quantity').siblings('.p-price').children('strong').text().substring(1);
+        var sum = (count*$(this).parents('.p-quantity').siblings('.p-price').children('strong').text().substring(1)).toFixed(2);
+        $(this).parents('.p-quantity').siblings('.p-sum').children('strong').text('¥'+sum);
+        //temp = sum-temp+$('.price em').text().substring(1);
+        //console.log($('.price em').text());
+        var weight_sum = (count*$(this).parents('.p-quantity').siblings('.p-price').children('span').text()).toFixed(3);//不四舍5入会出浮点BUG，例3*0.075＝0.2249999998
+        $(this).parents('.p-quantity').siblings('.p-sum').children('.weight').text(weight_sum+'kg');
+        var t = $(this);//$.post方法里$(this)就变成方法里的this
+        $.post("./num",{
+            goods_id:id,count:count
+        },function(res) {
+            if (res.error === "0") {
+                $('.price em').text(res.content['total']);
+                $('#save').text('-'+res.content['save']);
+                if(t.parents('.item-form').find('.checkbox').is(':checked') == false) {
+                    t.parents('.item-form').find('.checkbox').prop('checked',true);
+                    t.parents('.item-form').addClass('item-selected');
+                }
+                autoCheck();
+            }else{
+                alert("error:decr"+res.message);
+            }
+        },"json");
+    });
+    $('.item-list').on('click','a.increment:not(a.disabled)',function(){
+        var itxt = $(this).siblings('.itxt');
+        var count = parseInt(itxt.attr('value'))+1;
+        var id = $(this).parents('.p-quantity').attr('id');
+        if(count>200){
+            alert('购买数量最多200');
+            return;
+        }
+        itxt.attr('value',count);
+        itxt.val(count);
+        if($(this).siblings('a.decrement').hasClass('disabled')){
+            $(this).siblings('a.decrement').removeClass('disabled');
+        }
+        var sum = (count*$(this).parents('.p-quantity').siblings('.p-price').children('strong').text().substring(1)).toFixed(2);
+        $(this).parents('.p-quantity').siblings('.p-sum').children('strong').text('¥'+sum);
+        var weight_sum = (count*$(this).parents('.p-quantity').siblings('.p-price').children('span').text()).toFixed(3);
+        $(this).parents('.p-quantity').siblings('.p-sum').children('.weight').text(weight_sum+'kg');
+        var t=$(this);
+        $.post("./num",{
+            goods_id:id,count:count
+        },function(res) {
+            if (res.error === "0") {
+                $('.price em').text(res.content['total']);
+                $('#save').text('-'+res.content['save']);
+                if(t.parents('.item-form').find('.checkbox').is(':checked') == false) {
+                    t.parents('.item-form').find('.checkbox').prop('checked',true);
+                    t.parents('.item-form').addClass('item-selected');
+                }
+                autoCheck();
+            }else{
+                alert("error:incr"+res.message);
+            }
+        },"json");
+    });
+    $('.item-list').on('keypress','.itxt',function(e){
+        if(e.keyCode==13){
+            $(this).blur();
+            return false;
+        }
+    });
+    $('.item-list').on('blur','.itxt',function(){
+        var $value = $(this);
+        var id = $(this).parents('.p-quantity').attr('id');
+        var r = /\D/;
+        //输入非数字，数量改成1
+        if(r.test($value.val())){
+            $value.val(1);
+        }
+        var val = parseInt($value.val());
+        if(val>200){
+            alert('购买数量最多200');
+            $value.val(200);
+        }else if(val==0){
+            alert('购买数量错误');
+            $value.val(1);
+        }
+        val = parseInt($value.val());
+        $value.attr('value',val);//input标签的value值其实改不改都行，商品页没改
+        if(val == 1){
+            $value.siblings('a.decrement').addClass('disabled');
+        }else if($value.siblings('a.decrement').hasClass('disabled')){
+            $value.siblings('a.decrement').removeClass('disabled');
+        }
+        var sum = (val*$(this).parents('.p-quantity').siblings('.p-price').children('strong').text().substring(1)).toFixed(2);
+        $(this).parents('.p-quantity').siblings('.p-sum').children('strong').text('¥'+sum);
+        var weight_sum = (val*$(this).parents('.p-quantity').siblings('.p-price').children('span').text()).toFixed(3);
+        $(this).parents('.p-quantity').siblings('.p-sum').children('.weight').text(weight_sum+'kg');
+        $.post("./num",{
+            goods_id:id,count:val
+        },function(res) {
+            if (res.error === "0") {
+                $('.price em').text(res.content['total']);
+                $('#save').text('-'+res.content['save']);
+                if($value.parents('.item-form').find('.checkbox').is(':checked') == false) {
+                    $value.parents('.item-form').find('.checkbox').prop('checked',true);
+                    $value.parents('.item-form').addClass('item-selected');
+                }
+                autoCheck();
+            }else{
+                alert("error:blur"+res.message);
+            }
+        },"json");
+    });
+    $('.cart-warp').on('click','.checkbox',function(){
+        if($(this).attr("name") == 'toggle-checkboxes'){
+            if($(this).is(':checked')){
+                $('.checkbox').prop('checked',true);
+                $('input[name="checkItem[]"]').parents('.item-form').addClass('item-selected');
+                var select = '1';
+            }else {
+                $('.checkbox').prop('checked',false);
+                $('input[name="checkItem[]"]').parents('.item-form').removeClass('item-selected');
+                var select = '0';
+            }
+            x = $('input[name="checkItem[]"]').toArray();
+            arr = new Array();
+            //console.log(arr);
+            for(i=0;i<x.length;i++){
+                arr[i] = x[i]['value'];
+            }
+            $.post("./check",{
+                select:select, goods_id:arr
+            }, function(res) {
+                if (res.error === "0") {
+                    $('.price em').text(res.content['total']);
+                    $('#save').text('-'+res.content['save']);
+                }else{
+                    alert("error:blur"+res.message);
+                }
+                autoCheck();
+            },"json");
+        }else {
+            if ($(this).is(':checked')) {
+                $(this).prop('checked',true);
+                $(this).parents('.item-form').addClass('item-selected');
+                var select = '1';
+            } else {
+                $(this).prop('checked',false);
+                $(this).parents('.item-form').removeClass('item-selected');
+                var select = '0';
+            }
+            id = $(this).val();
+            $.post("./check",{
+                select:select, goods_id:id
+            },function(res) {
+                if (res.error === "0") {
+                    $('.price em').text(res.content['total']);
+                    $('#save').text('-'+res.content['save']);
+                }else{
+                    alert("error:checkbox"+res.message);
+                }
+                autoCheck();
+            },"json");
+        }
+    });
+    $('.operation').on('click','.remove-batch',function(){
+        if($('.checkbox').is(':checked')){
+            var txt="<div class='cart-dialog' tabindex='0'>" +
+                "<a href='javascript:remove_dialog()' class='ks-dialog-close' role='button'></a>" +
+                "<div class='ks-dialog-content'>" +
+                "<div class='ks-dialog-header'>删除商品</div>" +
+                "<div class='ks-dialog-body'>确认要删除这些商品吗？</div>"+
+                "<div class='ks-dialog-footer'>"+
+                "<a href='javascript:remove_batch()' class='dialog-btn'>确&nbsp;定</a>"+
+                "<a href='javascript:remove_dialog()' class='dialog-btn dialog-cancel'>关&nbsp;闭</a></div></div></div>";
+        }else{
+            var txt="<div class='cart-dialog cart-dialog-alert' tabindex='0'>"+
+                "<a href='javascript:remove_dialog()' class='ks-dialog-close' role='button'></a>"+
+                "<div class='ks-dialog-content'>"+
+                "<div class='ks-dialog-header'>提示信息</div>"+
+                "<div class='ks-dialog-body'>请选择宝贝</div>"+
+                "<div class='ks-dialog-footer'> <span class='icon-warning'></span> </div></div></div>";
+        }
+        $('body').append(txt);
+    });
+    function remove(id){
+        $('#item'+id).addClass('highlight');
+        //$('.cart-dialog').css('display','block');
+        var txt="<div class='cart-dialog' tabindex='0'>" +
+            "<a href='javascript:remove_dialog("+id+")' class='ks-dialog-close' role='button'></a>" +
+            "<div class='ks-dialog-content'>" +
+            "<div class='ks-dialog-header'>删除商品</div>" +
+            "<div class='ks-dialog-body'>确认要删除该商品吗？</div>"+
+            "<div class='ks-dialog-footer'>"+
+            "<a href='javascript:remove_item("+id+")' class='dialog-btn'>确&nbsp;定</a>"+
+            "<a href='javascript:remove_dialog("+id+")' class='dialog-btn dialog-cancel'>关&nbsp;闭</a></div></div></div>";
+        $('body').append(txt);
+    }
+    function remove_dialog(id=0){
+        $('.cart-dialog').remove();
+        if(id) {
+            $('#item' + id).removeClass('highlight');
+        }
+    }
+    function remove_item(id){
+        $.post("./del",{
+            goods_id:id
+        },function(res) {
+            if (res.error === "0" ) {
+                if(res.content == 'refurbish'){
+                    history.go(0);
+                }else {
+                    $('#item' + id).remove();
+                    $('.price em').text(res.content['total']);
+                    $('#save').text('-'+res.content['save']);
+                }
+            }else{
+                alert("error:removeitem"+res.message);
+            }
+            autoCheck();
+        },"json");
+        $('.cart-dialog').remove();
+    }
+    function remove_batch(){
+        x = $('input[name="checkItem[]"]:checked').toArray();
+        arr = new Array();
+        //console.log(arr);
+        for(i=0;i<x.length;i++){
+            arr[i] = x[i]['value'];
+        }
+        $.post("./del",{
+            goods_id:arr
+        }, function(res) {
+            if (res.error === "0" ) {
+                if(res.content == 'refurbish'){
+                    history.go(0);
+                }else {
+                    for(i=0;i<arr.length;i++){
+                        $('#item'+arr[i]).remove();
+                    }
+                    $('.price em').text(res.content['total']);
+                    $('#save').text('-'+res.content['save']);
+                }
+            }else{
+                alert("error:removebatch"+res.message);
+            }
+            autoCheck();
+
+        },"json");
+        $('.cart-dialog').remove();
+    }
+</script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/owl-carousel/owl.carousel.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/libs.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/cart_nav.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/search.js"></script>
+<!-- Theme files
+============================================ -->
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/so_megamenu.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/addtocart.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/application.js"></script>
+</body></html>

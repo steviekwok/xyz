@@ -1,0 +1,78 @@
+
+    <link href="__PUBLIC__/Admin/css/general.css" rel="stylesheet" type="text/css" />
+    <link href="__PUBLIC__/Admin/css/main.css" rel="stylesheet" type="text/css" />
+
+<div class="list-div">
+    <div style="background:#FFF; padding: 20px 50px; margin: 2px;">
+        <table align="center" width="400">
+            <tr>
+                <td width="50" valign="top">
+                    <if condition="$msg_type eq 0" >
+                    <img src="__PUBLIC__/Admin/images/information.gif" width="32" height="32" border="0" alt="information" />
+                    <elseif condition="$msg_type eq 1"/>
+                    <img src="__PUBLIC__/Admin/images/warning.gif" width="32" height="32" border="0" alt="warning" />
+                    <else />
+                    <img src="__PUBLIC__/Admin/images/confirm.gif" width="32" height="32" border="0" alt="confirm" />
+                    </if>
+                </td>
+                <td style="font-size: 14px; font-weight: bold">{$msg_detail}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td id="redirectionMsg">
+                    <compare name="auto_redirect" value="true" type="eq">
+                        如果您不做出选择，将在<span id="spanSeconds">3</span>秒后跳到第一个链接地址
+                    </compare>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <ul style="margin:0; padding:0 10px" class="msg-link">
+                        <foreach name="links" item="link">
+                        <li><a href="{$link['href']}">{$link['text']}</a></li>
+                        </foreach>
+                    </ul>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+<script language="JavaScript">
+    var seconds = 3;
+    var defaultUrl = "{$default_url}";
+
+
+    onload = function()
+    {
+        if (defaultUrl == 'javascript:history.go(-1)' && window.history.length == 0)//history.length属性声明了浏览器历史列表中的元素数量
+        {
+            document.getElementById('redirectionMsg').innerHTML = '';
+            return;
+        }
+
+        window.setInterval(redirection, 1000);
+    }
+
+    function redirection()
+    {
+        if (seconds <= 0)
+        {
+            window.clearInterval();
+            return;
+        }
+
+        seconds --;
+        document.getElementById('spanSeconds').innerHTML = seconds;
+
+        if (seconds == 0)
+        {
+            window.clearInterval();
+            location.href = defaultUrl;
+        }
+    }
+
+</script>

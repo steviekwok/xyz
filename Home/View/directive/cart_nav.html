@@ -1,0 +1,54 @@
+<div  id="cart" class=" btn-group btn-shopping-cart">
+    <a href="{{root_url}}/Home/cart/cart" data-loading-text="Loading..." class="top_cart">
+        <div class="shopcart">
+            <span class="handle pull-left"></span>
+            <span class="title">我的购物车</span>
+            <p class="text-shopping-cart cart-total-full" ng-show="amount">{{amount}} 商品 - {{total|currency:'￥'}} </p>
+            <p class="text-shopping-cart" ng-show="!amount">Enjoy shopping</p>
+        </div>
+    </a>
+    <ul class="tab-content content dropdown-menu pull-right shoppingcart-box no-margin no-padding" role="menu" hidden ng-show="amount">
+        <li style="margin:0 17px 0 13px">
+            <table class="table table-striped">
+                <tbody>
+                <tr ng-repeat="v in item">
+                    <td class="text-center" style="width:70px">
+                        <a href="{{root_url}}/Home/goods/goods/goods_id/{{v.goods_id}}">
+                            <img ng-src="{{root_url}}{{v.thumb_img}}" style="width:70px" alt="{{v.goods_name}}" title="{{v.goods_name}}" class="preview">
+                        </a>
+                    </td>
+                    <td class="text-left">
+                        <a class="cart_product_name" href="{{root_url}}/Home/goods/goods/goods_id/{{v.goods_id}}">{{v.goods_name}}</a>
+                    </td>
+                    <td class="text-center"> x{{v.num}} </td>
+                    <td class="text-center"> ￥{{v.shop_price}} </td>
+                    <td class="text-right">
+                        <a href="javascript:void(0)" data-id="{{v.goods_id}}" class="fa fa-times fa-delete "></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </li>
+        <li style="margin:0 17px 0 13px">
+            <div>
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <td class="text-left"><strong>Total</strong>
+                        </td>
+                        <td class="text-right">{{total|currency:'￥'}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <p class="text-right">
+                    <a class="btn view-cart" href="{{root_url}}/Home/cart/cart"><i class="fa fa-shopping-cart"></i>去购物车</a>&nbsp;&nbsp;&nbsp;
+                    <a class="btn btn-mega checkout-cart" ng-click=check()><i class="fa fa-share"></i>结算</a> </p>
+            </div>
+        </li>
+    </ul>
+    <ul class="tab-content content dropdown-menu pull-right shoppingcart-box no-margin" role="menu" hidden ng-show="!amount">
+        <li>
+            <p class="text-center">购物车还没有商品，赶紧选购吧！</p>
+        </li>
+    </ul>
+</div>

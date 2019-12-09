@@ -1,0 +1,189 @@
+<div class="row" >
+    <my-address data="data" size="size"></my-address>
+    <script type="text/ng-template" id="ad.html">
+    <div id="content" class="col-xs-12">
+        <div class="mod-comm">
+            <div class="mt">
+                <button type="button" class="btn btn-success" ng-click="add()">新增收货地址</button>
+                <span class="ftx-03">
+                    您已创建<span class="ftx-02" ng-bind="size"></span>
+                    个收货地址，最多可创建<span class="ftx-02">10</span>个
+                </span>
+            </div>
+            <div class="mc" alias-hide>
+                <div class="sm easebuy-m" ng-repeat="v in data">
+                    <div class="smt">
+                        <span style="font-size:14px;font-weight:bold">{{v.address_name}}</span>
+                        <a style="margin-left:10px" title="修改名称" class="fa fa-edit" alias-show></a>
+                        <span class="ftx-04" ng-show="v.default == 1">默认地址</span>
+                        <div class="extra">
+                            <a ng-click="remove(v.address_id,v.default)" class='del-btn' role='button'></a>
+                        </div>
+                        <div class="alias-form" hidden ng-mousedown="mouseDownEvent($event)">
+                            <div class="alias-new">
+                                <input type="text" class="ipt-text" ng-model="v.temp_address_name" ng-init="v.temp_address_name = v.address_name" maxlength="20" />
+                                <button type="button" class="btn-save" ng-click="saveAddressName(v)">保存</button>
+                            </div>
+                            <div class="alias-common">
+                                <div class="ac-tip">建议填写常用名称：</div>
+                                <div class="ac-con">
+                                    <a class="item" ng-click="v.temp_address_name = '家里'">家里</a>
+                                    <a class="item" ng-click="v.temp_address_name = '父母家'">父母家</a>
+                                    <a class="item" ng-click="v.temp_address_name = '公司'">公司</a>
+                                </div>
+                                <p id="tips" style='margin:5px 0 5px 90px;color:red;'></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="smc">
+                        <div class="col-xs-12 col-sm-7">
+                            <div><label>收货人：</label><span>{{v.consignee}}</span></div>
+                            <div><label>所在地区：</label><span>{{v.province_name}}{{v.city_name}}{{v.district_name}}</span></div>
+                            <div><label>地址：</label><span>{{v.address}}</span></div>
+                            <div><label>手机：</label><span>{{v.mobile}}</span></div>
+                            <div><label>固定电话：</label><span>{{v.tel}}</span></div>
+                        </div>
+                        <div class="col-xs-12 col-sm-5">
+                            <div><label>电子邮箱：</label><span>{{v.email}}</span></div>
+                            <div><label>支付方式：</label><span>{{v.payment_mode}}</span></div>
+                            <div><label>配送方式：</label><span>{{v.shipping_method}}</span></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="col-xs-12 col-sm-offset-8 col-sm-4 col-md-offset-9 col-md-3">
+                            <a ng-hide="v.default == 1" ng-click="setDt(v.address_id)">设为默认地址</a>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span ng-show="v.default == 1" style="margin-left:80px"></span>
+                            <a ng-click="edit(v)">编辑</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="thickbox" ng-show="show">
+        <div class="thicktitle">
+            <span>{{action}}</span>
+            <div class="extra">
+                <a class="del-btn" role="button" ng-click="show=false;setEmpty()"></a>
+            </div>
+        </div>
+        <div class="thickcon">
+            <div class="m" id="edit-cont">
+                <div class="item clearfix">
+                    <label>
+                        <em>*</em>收货人
+                    </label>
+                    <div class="pull-left">
+                        <input ng-model="name" type="text" class="text" />
+                        <span class="error-msg" ng-bind="name_err"></span>
+                    </div>
+                </div>
+                <div class="item clearfix">
+                    <label>
+                        <em>*</em>所在地区
+                    </label>
+                    <div class="ui-area-wrap pull-left" ng-mouseover="area=true" ng-mouseleave="area=false"  ng-class="{'ui-area-hover':area}">
+                        <div class="ui-area-text-wrap">
+                            <div ng-init="sjld_show='--请选择--'" ng-bind="sjld_show"></div>
+                            <span class="fa fa-angle-down fa-lg"></span>
+                        </div>
+                        <div class="ui-area-content-wrap" ng-init="var='province'">
+                            <div class="ui-area-tab">
+                                <a class="ui-switchable-item" ng-class="{'ui-area-current':var=='province'}"  ng-click="var='province'" title="{{se_province.region_name}}" >
+                                    <em ng-bind="se_province.region_name"></em><i></i>
+                                </a>
+                                <a class="ui-switchable-item" ng-class="{'ui-area-current':var=='city'}" ng-hide="se_province.region_name=='请选择'" ng-click="var='city'" title="{{se_city.region_name}}">
+                                    <em ng-bind="se_city.region_name"></em><i></i>
+                                </a>
+                                <a class="ui-switchable-item" ng-class="{'ui-area-current':var=='district'}" ng-hide="se_city.region_name=='请选择'" ng-click="var='district'" title="{{se_district.region_name}}">
+                                    <em ng-bind="se_district.region_name"></em><i></i>
+                                </a>
+                            </div>
+                            <div class="ui-area-content" ng-switch="var">
+                                <div class="ui-switchable-panel" ng-switch-when="province">
+                                    <ul class="ui-area-content-list">
+                                        <li ng-repeat="p in province">
+                                            <a href="javascript:void(0)" ng-mousedown="setSJLD($event,1,p.region_name,p.region_id)">{{p.region_name}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="ui-switchable-panel" ng-switch-when="city">
+                                    <ul class="ui-area-content-list">
+                                        <li ng-repeat="c in city">
+                                            <a href="javascript:void(0)" ng-mousedown="setSJLD($event,2,c.region_name,c.region_id)">{{c.region_name}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="ui-switchable-panel" ng-switch-when="district">
+                                    <ul class="ui-area-content-list">
+                                        <li ng-repeat="d in district">
+                                            <a href="javascript:void(0)" ng-mousedown="setSJLD($event,3,d.region_name,d.region_id)">{{d.region_name}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="ui-area-close"></div>
+                        </div>
+                        <span class="error-msg" ng-bind="sjld_err"></span>
+                    </div>
+                </div>
+                <div class="item clearfix">
+                    <label>
+                        <em>*</em>详细地址
+                    </label>
+                    <div class="pull-left">
+                        <input ng-model="address" type="text" class="text" size="80"/>
+                        <p><span class="error-msg" ng-bind="address_err"></span></p>
+                    </div>
+                </div>
+                <div class="item clearfix">
+                    <div class="pull-left">
+                        <label>
+                            <em>*</em>手机号码
+                        </label>
+                        <div class="pull-left">
+                            <input ng-model="mobile" type="text" class="text" />
+                        </div>
+                    </div>
+                    <div class="pull-left">
+                        <span class="extra-span ftx-03">或</span>
+                    </div>
+                    <div class="pull-left">
+                        <label>
+                            固定号码
+                        </label>
+                        <div class="pull-left">
+                            <input ng-model="tel" type="text" class="text" />
+                            <span class="error-msg" ng-bind="mobile_err"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="item clearfix">
+                    <label>邮箱</label>
+                    <div class="pull-left">
+                        <input ng-model="email" type="text" class="text" size="50"/>
+                        <span class="error-msg" ng-bind="email_err"></span>
+                    </div>
+                </div>
+                <div class="item clearfix">
+                    <label>地址别名</label>
+                    <div class="pull-left">
+                        <input ng-model="address_name" type="text" class="text" />
+                        <span class="error-msg" ng-bind="address_name_err"></span>
+                        <span class="ftx-03">建议填写常用名称</span>
+                        <span class="addr-alias">
+                        <a id="home" ng-click="address_name='家里'">家里</a>
+                        <a id="parentHome" ng-click="address_name='父母家'">父母家</a>
+                        <a id="company" ng-click="address_name='公司'">公司</a>
+                     </span>
+                    </div>
+                </div>
+                <div class="btns">
+                    <button type="button" class="btn btn-primary" ng-click="save()">保存收货地址</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button type="button" class="btn btn-default disabled">设置支付和配送方式</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </script>
+</div>

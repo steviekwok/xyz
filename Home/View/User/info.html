@@ -1,0 +1,40 @@
+<div class="row">
+    <div id="content" class="col-xs-12">
+        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal account-register clearfix">
+        <fieldset id="account">
+                <legend>您的个人信息（此页面未骏工）</legend>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" >用户名</label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">昵称</label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">性别</label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">生日</label>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">邮箱</label>
+                </div>
+            </fieldset>
+            <div class="buttons">
+                <notempty name="go">
+                    <div class="suc-div col-sm-4 col-sm-offset-4">
+                        <div class="suc-mess">
+                            <span class="suc-icon"></span>
+                            <span>注册成功，2秒后跳转...</span>
+                        </div>
+                        <img src="__PUBLIC__/Home/images/ajax_loader.gif" width="309" height="12">
+                        <meta http-equiv='refresh' content='2;url=login'>
+                    </div>
+                    <else/>
+                    <div class="">
+                        <input type="submit" value="提交" class="btn btn-primary">
+                    </div>
+                </notempty>
+            </div>
+        </form>
+    </div>
+</div>

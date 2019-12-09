@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- Basic page needs
+	============================================ -->
+    <title>欢迎登录 － 步步坚商城</title>
+    <meta charset="utf-8">
+    <meta name="keywords" content="" />
+    <meta name="author" content="Magentech">
+    <meta name="robots" content="index, follow" />
+
+    <!-- Mobile specific metas
+    ============================================ -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Favicon
+    ============================================ -->
+    <link rel="bookmark" href="__ROOT__/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="__ROOT__/favicon.ico" />
+
+    <!-- Libs CSS
+	============================================ -->
+    <link href="__PUBLIC__/Home/css/style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="__PUBLIC__/Home/templet/css/bootstrap/css/bootstrap.min.css">
+    <link href="__PUBLIC__/Home/templet/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Theme CSS
+    ============================================ -->
+    <link href="__PUBLIC__/Home/templet/css/themecss/so_megamenu.css" rel="stylesheet">
+    <link id="color_scheme" href="__PUBLIC__/Home/templet/css/theme.css" rel="stylesheet">
+    <link href="__PUBLIC__/Home/templet/css/responsive.css" rel="stylesheet">
+
+</head>
+
+<body class="res layout-subpage">
+
+<div id="wrapper" class="wrapper-full" ng-app="app">
+    <!-- Header Container  -->
+    <include file="Common/header"/>
+    <!-- //Header Container  -->
+    <!-- Main Container  -->
+    <div class="main-container container">
+        <ul class="breadcrumb">
+            <li><a href="#"><i class="fa fa-home"></i></a></li>
+            <li><a href="#">用户中心</a></li>
+            <li>登录</li>
+        </ul>
+
+        <div class="row">
+            <div id="content" class="col-sm-12">
+                <div class="page-login">
+                    <div class="account-border">
+                        <div class="row">
+                            <div class="col-sm-6 new-customer">
+                                <div class="well">
+                                    <h2><i class="fa fa-file-o" aria-hidden="true"></i> 还没有注册？</h2>
+                                    <p>通过创建一个帐户，您将能够更快地购物，获取最新的订单状态，并查看您以前的订单。</p>
+                                </div>
+                                <div class="bottom-form">
+                                    <a href="{:U('Home/user/reg')}" class="btn btn-default pull-right">去注册</a>
+                                </div>
+                            </div>
+
+                            <form  onsubmit="submit_form(); return false;">
+                                <div class="col-sm-6 customer-login">
+                                    <div class="well">
+                                        <h2><i class="fa fa-file-text-o" aria-hidden="true"></i> 会员请在这里登录</h2>
+                                        <div class="form-group">
+                                            <label class="control-label " for="input-username">用户名</label>
+                                            <input type="text" name="username" id="input-username" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label " for="input-password">密码</label>
+                                            <input type="password" name="password" id="input-password" class="form-control" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label " for="input-verify">验证码</label>
+                                            <input type="text" name="verify" id="input-verify" class="form-control" />
+                                            <a href="javascript:onclick=change_verify()" style="text-decoration: underline">看不清，换一张</a><img src="{:U('Home/User/yzm','', '')}" alt="验证码" title="点击刷新" id="code_img" height="50" style="margin:10px 0 0 5px;"/>
+                                        </div>
+                                        <div class="error-mess" hidden>
+                                            <span class="error-icon"></span>
+                                            <span id="tips"></span>
+                                        </div>
+                                    </div>
+                                    <div class="bottom-form">
+                                        <a href="#" class="forgot">忘记密码？</a>
+                                        <input type="submit" value="登录" class="btn btn-default pull-right" />
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- //Main Container -->
+
+
+    <!-- Footer Container -->
+    <include file="Common/footer"/>
+    <!-- //end Footer Container -->
+
+</div>
+
+<!-- Include Libs & Plugins
+	============================================ -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/angular.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/angular-ui-bootstrap.js"></script>
+
+<script>
+    var root_url = '__ROOT__';
+    var m = angular.module('app', ['ui.bootstrap']);
+
+    function submit_form(){
+        var name = $.trim($('input[name="username"]').val());
+        var pwd = $.trim($('input[name="password"]').val());
+        var verify = $.trim($('input[name="verify"]').val());
+        if(!name || !pwd) {
+            $('.error-mess').css('display','block');
+            $('#tips').text('用户名或密码不能为空');
+            //$('input[name="content"]').focus();
+            //$('textarea[name="content"]').select();
+        }else if(!verify){
+            $('.error-mess').css('display','block');
+            $('#tips').text('请输入验证码');
+        }else {
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                data: {username: name, password: pwd, verify: verify, act: "login"},
+                success: function (msg) {
+                    if (msg != "done") {
+                        $('.error-mess').css('display','block');
+                        $('#tips').text(msg);
+                        change_verify();
+                    } else {
+                        window.location.href = document.referrer;//返回上一页并刷新
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("ajax login error");
+                }
+            });
+        }
+    }
+    //点击更换验证码
+    var verifyURL = $("#code_img").attr("src");
+    function change_verify(){
+        var time = new Date().getTime();
+        $("#code_img").attr("src", verifyURL+"/"+time);
+    }
+    $(document).on("click", "#code_img", change_verify);
+</script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/owl-carousel/owl.carousel.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/libs.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/cart_nav.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/search.js"></script>
+<!-- Theme files
+============================================ -->
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/so_megamenu.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/addtocart.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/application.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Basic page needs
+  ============================================ -->
+  <title>购物车 - 步步坚商城</title>
+  <meta charset="utf-8">
+  <meta name="keywords" content="" />
+  <meta name="author" content="Magentech">
+  <meta name="robots" content="index, follow" />
+
+  <!-- Mobile specific metas
+  ============================================ -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <!-- Favicon
+  ============================================ -->
+  <link rel="bookmark" href="__ROOT__/favicon.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="__ROOT__/favicon.ico" />
+
+  <!-- Libs CSS
+  ============================================ -->
+  <link href="__PUBLIC__/Home/css/cart.css" rel="stylesheet" type="text/css">
+  <link href="__PUBLIC__/Home/css/style.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="__PUBLIC__/Home/templet/css/bootstrap/css/bootstrap.min.css">
+  <link href="__PUBLIC__/Home/templet/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+  <!-- Theme CSS
+  ============================================ -->
+  <link href="__PUBLIC__/Home/templet/css/themecss/so_megamenu.css" rel="stylesheet">
+  <link id="color_scheme" href="__PUBLIC__/Home/templet/css/theme.css" rel="stylesheet">
+  <link href="__PUBLIC__/Home/templet/css/responsive.css" rel="stylesheet">
+
+</head>
+<body class="res layout-subpage">
+<div id="wrapper" class="wrapper-full" ng-app="app">
+  <!-- Header Container  -->
+  <include file="Common/header"/>
+  <div class="main-container container">
+    <defined name="error">
+      <p>{msg}</p>
+      <else/>
+      <ul class="breadcrumb">
+        <li><a href="__ROOT__/"><i class="fa fa-home"></i></a></li>
+        <li>支付页面</li>
+      </ul>
+      <div style="margin-bottom:30px"> 感谢您在本店购物！您的订单已提交成功！</div>
+      <div class="tc" style="margin-bottom:30px;font-size:15px">
+        订单号：<span class="a">{$rid}</span><br>
+        应付款金额： <strong >{$total}元</strong><br>
+        {$form}
+      </div>
+    </defined>
+  </div>
+  <include file="Common/footer"/>
+  <!-- //end Footer Container -->
+</div>
+<!-- Include Libs & Plugins
+	============================================ -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/angular.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/angular-ui-bootstrap.js"></script>
+<script>
+    var root_url = '__ROOT__';
+    var m = angular.module('app', ['ui.bootstrap']);
+</script>
+<script src="__PUBLIC__/Home/js/ar.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/owl-carousel/owl.carousel.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/libs.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/cart_nav.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/search.js"></script>
+<!-- Theme files
+============================================ -->
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/so_megamenu.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/addtocart.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/application.js"></script>
+</body></html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ECSHOP 管理中心 - 添加新商品 </title>
+    <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="__ROOT__/favicon.ico" />
+    <link rel="bookmark" href="__ROOT__/favicon.ico" type="image/x-icon" />
+    <link href="__PUBLIC__/Admin/css/general.css" rel="stylesheet" type="text/css" />
+    <link href="__PUBLIC__/Admin/css/main.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="__PUBLIC__/js/utils.js"></script>
+    <script type="text/javascript" src="__PUBLIC__/Admin/js/validator.js">
+    <script>window.UEDITOR_HOME_URL="/ueditor/";</script>
+    <script src="__ROOT__/ueditor/ueditor.config.js"></script>
+    <script src="__ROOT__/ueditor/ueditor.all.js"></script>
+</script>
+</head>
+<body>
+
+<h1>
+    <span class="action-span"><a href="goodslist">商品列表</a></span>
+    <span class="action-span1">
+        <a href="__ROOT__/index.php/Admin/index/main">ECSHOP 管理中心</a>
+    </span>
+    <span id="search_id" class="action-span1"> - 添加新商品 </span>
+    <div style="clear:both"></div>
+</h1>
+
+<!-- start goods form -->
+<div class="tab-div">
+    <!-- tab bar -->
+    <div id="tabbar-div">
+        <p>
+            <span class="tab-front" id="general-tab" onclick="charea('general');">通用信息</span>
+            <span class="tab-back" id="detail-tab" onclick="charea('detail');">详细描述</span>
+            <span class="tab-back" id="mix-tab" onclick="charea('mix');">其他信息</span>
+        </p>
+    </div>
+
+    <!-- tab body -->
+    <div id="tabbody-div">
+        <form enctype="multipart/form-data" action="{:U('Admin/goods/goodsedit',array('goods_id'=>$goods['goods_id']))}" method="post" name="theForm" >
+            <!-- 最大文件限制 -->
+            <input type="hidden" name="MAX_FILE_SIZE" value="2097152" />
+            <!-- 通用信息 -->
+            <table width="90%" id="general-table" align="center">
+                <tr>
+                    <td class="label">商品名称：</td>
+                    <td>
+                        <input type="text" name="goods_name" value="{$goods_item.goods_name}" style="float:left;color:;" size="30" />
+                        <span class="require-field">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">
+                        <a href="javascript:showNotice('noticeGoodsSN');" title="点击此处查看提示信息">
+                            <img src="__PUBLIC__/Admin/images/notice.gif" width="16" height="16" border="0" alt="点击此处查看提示信息">
+                        </a> 商品货号：
+                    </td>
+                    <td>
+                        <input type="text" name="goods_sn" value="{$goods_item.goods_sn}" size="20"  />
+                        <span id="goods_sn_notice"></span><br />
+                        <span class="notice-span" style="display:block"  id="noticeGoodsSN">如果您不输入商品货号，系统将自动生成一个唯一的货号。</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">商品分类：</td>
+                    <td>
+                        <select name="cat_id"  >
+                            <option value="0">请选择...</option>
+                            <volist name="catlist" id="c">
+                                <if condition="$c['cat_id'] eq $goods_item['cat_id']">
+                                    <option value="{$c['cat_id']}" selected>
+                                        <for start="0" end="$c['lv']">&nbsp;</for>{$c['cat_name']}
+                                    </option>
+                                    <else />
+                                    <option value="{$c['cat_id']}" >
+                                        <for start="0" end="$c['lv']">&nbsp;</for>{$c['cat_name']}
+                                    </option>
+                                </if>
+                            </volist>
+                        </select>
+                        <span class="require-field">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">商品品牌：</td>
+                    <td>
+                        <select name="brand_id"  >
+                            <option value="0">请选择...</option>
+                            <volist name="brand" id="b">
+                                <if condition="$b['brand_id'] eq $goods_item['brand_id']">
+                                <option value="{$b['brand_id']}" selected>{$b['brand_name']}</option>
+                                    <else/>
+                                    <option value="{$b['brand_id']}">{$b['brand_name']}</option>
+                                </if>
+                            </volist>
+                        </select>
+                        <span class="require-field">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">本店售价：</td>
+                    <td>
+                        <input type="text" name="shop_price" value="{$goods_item.shop_price}" size="20" onblur="priceSetted()" />
+                        <input type="button" value="按市场价计算" onclick="marketPriceSetted()" />
+                        <span class="require-field">*</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">市场售价：</td>
+                    <td>
+                        <input type="text" name="market_price" value="{$goods_item.market_price}" size="20" />
+                        <input type="button" value="取整数" onclick="integral_market_price()" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="label">上传商品图片：</td>
+                    <td>
+                        <input type="file" name="goods_img" size="35" />
+                        <empty name="goods_item.goods_img">
+                            <img src="__PUBLIC__/Admin/images/no.gif" />
+                            <else />
+                            <a href="{:U('Admin/goods/goodsimg',array('goods_id'=>$goods_item['goods_id']))}" target="_blank">
+                                <img src="__PUBLIC__/Admin/images/yes.gif" border="0" />
+                            </a>
+                        </empty>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- 详细描述<textarea name="goods_desc"></textarea> -->
+            <table width="90%" id="detail-table" align="center" style="display:none;" >
+                <tr>
+                    <td>
+                        <script name="goods_desc" id="myEditor" style="height:300px">{$goods_item['goods_desc']}</script>
+                        <script>var ue=UE.getEditor('myEditor');</script>
+                     </td>
+                </tr>
+            </table>
+
+            <!-- 其他信息 -->
+            <table width="90%" id="mix-table" align="center" style="display:none">
+                <tr>
+                    <td class="label">商品重量：</td>
+                    <td>
+                        <if condition="$goods_item.goods_weight lt 1">
+                            <input type="text" name="goods_weight" value="{$goods_item['goods_weight']*1000}" size="20" />
+                            <select name="weight_unit">
+                                <option value="1">千克</option>
+                                <option value="0.001" selected>克</option>
+                            </select>
+                        <else />
+                            <input type="text" name="goods_weight" value="{$goods_item.goods_weight}" size="20" />
+                            <select name="weight_unit">
+                                <option value="1" selected>千克</option>
+                                <option value="0.001">克</option>
+                            </select>
+                        </if>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">
+                        <a href="javascript:showNotice('noticeStorage');" title="点击此处查看提示信息">
+                        <img src="__PUBLIC__/Admin/images/notice.gif" width="16" height="16" border="0" alt="点击此处查看提示信息">
+                        </a> 商品库存数量：
+                    </td>
+                    <td><input type="text" name="goods_number" value="{$goods_item.goods_number}" size="20" />
+                        <span class="notice-span" style="display:block" id="noticeStorage">
+                            库存在商品为虚货或商品存在货品时为不可编辑状态，库存数值取决于其虚货数量或货品数量
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="label">加入推荐：</td>
+                    <td>
+                        <if condition="$goods_item.is_best eq 1">
+                            <input type="checkbox" name="is_best" value="1" checked="checked" />精品
+                        <else />
+                            <input type="checkbox" name="is_best" value="1"  />精品
+                        </if>
+                        <if condition="$goods_item.is_new eq 1">
+                            <input type="checkbox" name="is_new" value="1" checked="checked"/>新品
+                            <else />
+                            <input type="checkbox" name="is_new" value="1"  />新品
+                        </if>
+                        <if condition="$goods_item.is_hot eq 1">
+                            <input type="checkbox" name="is_hot" value="1" checked="checked"/>热销
+                            <else />
+                            <input type="checkbox" name="is_hot" value="1"  />热销
+                        </if>
+                    </td>
+                </tr>
+                <tr id="alone_sale_1">
+                    <td class="label" id="alone_sale_2">上架：</td>
+                    <if condition="$goods_item.is_on_sale eq 1">
+                        <td><input type="checkbox" name="is_on_sale" value="1" checked="checked" /> 打勾表示允许销售，否则不允许销售。</td>
+                        <else />
+                        <td><input type="checkbox" name="is_on_sale" value="1" /> 打勾表示允许销售，否则不允许销售。</td>
+                    </if>
+                </tr>
+                <tr>
+                    <td class="label">是否为免运费商品</td>
+                    <if condition="$goods_item.is_shipping eq 1">
+                        <td><input type="checkbox" name="is_shipping" value="1" checked="checked"/> 打勾表示此商品不会产生运费花销，否则按照正常运费计算。</td>
+                        <else />
+                        <td><input type="checkbox" name="is_shipping" value="1" /> 打勾表示此商品不会产生运费花销，否则按照正常运费计算。</td>
+                    </if>
+                </tr>
+                <tr>
+                    <td class="label">商品关键词：</td>
+                    <td><input type="text" name="keywords" value="" size="40" /> 用空格分隔</td>
+                </tr>
+                <tr>
+                    <td class="label">商品简单描述：</td>
+                    <td><textarea name="goods_brief" cols="40" rows="3"></textarea></td>
+                </tr>
+                <tr>
+                    <td class="label">
+                        <a href="#" title="点击此处查看提示信息">
+                            <img src="__PUBLIC__/Admin/images/notice.gif" width="16" height="16" border="0" alt="点击此处查看提示信息">
+                        </a> 商家备注：
+                    </td>
+                    <td>
+                        <textarea name="seller_note" cols="40" rows="3"></textarea><br />
+                        <span class="notice-span" style="display:block"  id="noticeSellerNote">仅供商家自己看的信息</span>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="button-div">
+                <input type="hidden" name="goods_id" value="0" />
+                <input type="submit" value=" 确定 " class="button" />
+                <input type="reset" value=" 重置 " class="button" />
+            </div>
+            <input type="hidden" name="goods_id" value="{$goods_item.goods_id}" />
+        </form>
+    </div>
+</div>
+<!-- end goods form -->
+<script>
+    /**
+     * 按比例计算价格
+     * @param   string  inputName   输入框名称
+     * @param   float   rate        比例
+     * @param   string  priceName   价格输入框名称（如果没有，取shop_price）
+     */
+    function computePrice(inputName, rate, priceName)
+    {
+        var shopPrice = priceName == undefined ? document.forms['theForm'].elements['shop_price'].value : document.forms['theForm'].elements[priceName].value;
+        shopPrice = Utils.trim(shopPrice) != '' ? parseFloat(shopPrice)* rate : 0;
+        shopPrice += "";
+        n = shopPrice.lastIndexOf(".");
+        if (n > -1)
+        {
+            shopPrice = shopPrice.substr(0, n + 3);
+        }
+
+        if (document.forms['theForm'].elements[inputName] != undefined)
+        {
+            document.forms['theForm'].elements[inputName].value = shopPrice;
+        }
+        else
+        {
+            document.getElementById(inputName).value = shopPrice;
+        }
+    }
+    /**
+     * 根据市场价格，计算并改变商店价格、积分以及会员价格
+     */
+    function marketPriceSetted()
+    {
+        computePrice('shop_price', 1/1.2, 'market_price');
+    }
+
+    /**
+     * 设置了一个商品价格，改变市场价格、积分以及会员价格
+     */
+    function priceSetted()
+    {
+        computePrice('market_price', 1.2);
+    }
+
+    /**
+     * 将市场价格取整
+     */
+    function integral_market_price()
+    {
+        document.forms['theForm'].elements['market_price'].value = parseInt(document.forms['theForm'].elements['market_price'].value);
+    }
+
+    function charea(a) {
+        var spans = ['general','detail','mix'];
+        for(i=0;i<3;i++) {
+            var o = document.getElementById(spans[i]+'-tab');
+            var tb = document.getElementById(spans[i]+'-table');
+            o.className = o.id==a+'-tab'?'tab-front':'tab-back';
+            tb.style.display = tb.id==a+'-table'?'':'none';
+        }
+
+    }
+</script>
+</body>
+</html>

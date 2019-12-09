@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ECSHOP 管理中心 - 评论详情 </title>
+    <meta name="robots" content="noindex, nofollow">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="__ROOT__/favicon.ico" />
+    <link rel="bookmark" href="__ROOT__/favicon.ico" type="image/x-icon" />
+    <link href="__PUBLIC__/Admin/css/general.css" rel="stylesheet" type="text/css" />
+    <link href="__PUBLIC__/Admin/css/main.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<h1>
+    <span class="action-span"><a href="__ROOT__/index.php/Admin/comment/commentlist">用户评论</a></span>
+    <span class="action-span1"><a href="__ROOT__/index.php/Admin/index/main">ECSHOP 管理中心</a> </span><span id="search_id" class="action-span1"> - 评论详情 </span>
+</h1>
+<div class="main-div">
+    <table width="100%">
+        <tr>
+            <td>
+                <a href="mailto:{$msg.email}"><b>
+                    <notempty name="msg.username">
+                        {$msg.username}
+                        <else/>
+                        匿名用户
+                    </notempty>
+                    </b></a>&nbsp;于&nbsp;{$msg.pubtime|date="Y-m-d H:i:s",###}&nbsp;对&nbsp;<b>{$msg.goods_name}</b>&nbsp;发表评论
+            </td>
+        </tr>
+        <tr>
+            <td><hr color="#dadada" size="1"></td>
+        </tr>
+        <tr>
+            <td>
+                <div style="overflow:hidden; word-break:break-all;">{$msg.content}</div>
+                <div align="right"><b>评价:</b> {$msg.comment_rank}&nbsp;&nbsp;<b>IP地址</b>: {$msg.ip_address}</div>
+            </td>
+        </tr>
+        <tr>
+            <td align="center">
+                <if condition="$msg.status eq 0">
+                <input type="button" onclick="location.href='__ROOT__/index.php/Admin/comment/check/comment_id/'+{$msg['comment_id']}" value="允许显示" class="button" />
+                <else/>
+                <input type="button" onclick="location.href='__ROOT__/index.php/Admin/comment/check/comment_id/'+{$msg['comment_id']}" value="禁止显示" class="button" />
+                </if>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<notempty name="reply">
+<!-- reply content list -->
+<div class="main-div">
+    <table width="100%">
+        <tr>
+            <td>
+                管理员&nbsp;<a href="mailto:{$msg.email}"><b>{$reply.username}</b></a>&nbsp;于
+                &nbsp;{$reply.pubtime|date="Y-m-d H:i:s",###}&nbsp;回复
+            </td>
+        </tr>
+        <tr>
+            <td><hr color="#dadada" size="1"></td>
+        </tr>
+        <tr>
+            <td>
+                <div style="overflow:hidden; word-break:break-all;">{$reply.content}</div>
+                <div align="right"><b>IP地址</b>: {$reply.ip_address}</div>
+            </td>
+        </tr>
+    </table>
+</div>
+</notempty>
+
+<notempty name="send_fail">
+<ul style="padding:0; margin: 0; list-style-type:none; color: #CC0000;">
+    <li style="border: 1px solid #CC0000; background: #FFFFCC; padding: 10px; margin-bottom: 5px;" >邮件发送失败，请检查邮件服务器设置后重新发送邮件。</li>
+</ul>
+</notempty>
+
+<div class="main-div">
+    <form method="post" action="{:U('Admin/comment/action')}" name="theForm" onsubmit="return validate()">
+        <table border="0" align="center">
+            <tr><th colspan="2">
+                <strong>回复评论</strong>
+            </th></tr>
+            <tr>
+                <td>用户名:</td>
+                <td><input name="username" type="text"
+                    <empty name="reply.username">
+                           value="admin"
+                    <else/>
+                        value="{$reply.username}"
+                    </empty> size="30" readonly="true" /></td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td><input name="email" type="text"
+                    <empty name="reply.email">
+                           value="gikinwing@163.com"
+                    <else/>
+                    value="{$reply.email}"
+                    </empty> size="30" readonly="true" /></td>
+            </tr>
+            <tr>
+                <td>回复内容:</td>
+                <td><textarea name="content" cols="50" rows="4" wrap="VIRTUAL">{$reply.content}</textarea></td>
+            </tr>
+            <notempty name="reply">
+            <tr>
+                <td>&nbsp;</td>
+                <td>提示: 此条评论已有回复, 如果继续回复将更新原来回复的内容!</td>
+            </tr>
+            </notempty>
+            <tr>
+                <td></td>
+                <td><input name="send_email_notice" type="checkbox" value='1'/>邮件通知</td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <input name="submit" type="submit" value="确定" class="button">
+                    <input type="reset" value="重置" class="button">
+                    <notempty name="reply"><input type="submit" name="remail" value="重发邮件" class="button"></notempty>
+                    <input type="hidden" name="comment_id" value="{$msg.comment_id}">
+                    <input type="hidden" name="goods_id" value="{$msg.goods_id}">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script>
+    function validate()
+    {
+        var con=document.getElementsByName("content")[0].value;
+        if(con == ''){
+            alert("回复内容不能为空！");
+            return false;
+        }
+    }
+</script>
+</body>
+</html>

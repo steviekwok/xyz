@@ -1,0 +1,8 @@
+<?php
+require("mail.php");   
+  
+smtp_mail("gikinwing@163.com",
+"YNWA",
+"123",
+"",
+"username");  

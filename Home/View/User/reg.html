@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- Basic page needs
+	============================================ -->
+    <title>用户注册 - 步步坚商城</title>
+    <meta charset="utf-8">
+    <meta name="keywords" content="" />
+    <meta name="author" content="Magentech">
+    <meta name="robots" content="index, follow" />
+
+    <!-- Mobile specific metas
+    ============================================ -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Favicon
+    ============================================ -->
+    <link rel="bookmark" href="__ROOT__/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="__ROOT__/favicon.ico" />
+
+    <!-- Libs CSS
+	============================================ -->
+    <link href="__PUBLIC__/Home/css/style.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="__PUBLIC__/Home/templet/css/bootstrap/css/bootstrap.min.css">
+    <link href="__PUBLIC__/Home/templet/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+    <!-- Theme CSS
+    ============================================ -->
+    <link href="__PUBLIC__/Home/templet/css/themecss/so_megamenu.css" rel="stylesheet">
+    <link id="color_scheme" href="__PUBLIC__/Home/templet/css/theme.css" rel="stylesheet">
+    <link href="__PUBLIC__/Home/templet/css/responsive.css" rel="stylesheet">
+
+</head>
+
+<body class="res layout-subpage">
+
+<div id="wrapper" class="wrapper-full" ng-app="app">
+    <!-- Header Container  -->
+    <include file="Common/header"/>
+    <!-- //Header Container  -->
+    <!-- Main Container  -->
+    <div class="main-container container">
+        <ul class="breadcrumb">
+            <li><a href="#"><i class="fa fa-home"></i></a></li>
+            <li><a href="#">用户中心</a></li>
+            <li>注册</li>
+        </ul>
+
+        <div class="row">
+            <div id="content" class="col-sm-12">
+                <h2 class="title">注册新用户</h2>
+                <p>如果您已经注册过, 请按此 <a href="{:U('Home/user/login')}">登录</a>。</p>
+                <form action="" method="post" enctype="multipart/form-data" class="form-horizontal account-register clearfix">
+                    <fieldset id="account">
+                        <legend>您的个人信息</legend>
+                        <div class="form-group required">
+                            <label class="col-sm-2 control-label" for="input-lastname">姓名</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="username" value="" id="input-lastname" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label class="col-sm-2 control-label" for="input-email">E-Mail</label>
+                            <div class="col-sm-10">
+                                <input type="email" name="email" value=""  id="input-email" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="input-telephone">电话</label>
+                            <div class="col-sm-10">
+                                <input type="tel" name="telephone" value=""  id="input-telephone" class="form-control">
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!--<fieldset id="address">
+                        <legend>Your Address</legend>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="input-company">Company</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="company" value="" placeholder="Company" id="input-company" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label class="col-sm-2 control-label" for="input-address-1">Address 1</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="address_1" value="" placeholder="Address 1" id="input-address-1" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label" for="input-address-2">Address 2</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="address_2" value="" placeholder="Address 2" id="input-address-2" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label class="col-sm-2 control-label" for="input-city">City</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="city" value="" placeholder="City" id="input-city" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label class="col-sm-2 control-label" for="input-postcode">Post Code</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="postcode" value="" placeholder="Post Code" id="input-postcode" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label class="col-sm-2 control-label" for="input-country">Country</label>
+                            <div class="col-sm-10">
+                                <select name="country_id" id="input-country" class="form-control">
+                                    <option value=""> -&#45;&#45; Please Select -&#45;&#45; </option>
+                                    <option value="244">Aaland Islands</option>
+                                    <option value="1">Afghanistan</option>
+                                    <option value="2">Albania</option>
+                                    <option value="3">Algeria</option>
+                                    <option value="4">American Samoa</option>
+                                    <option value="5">Andorra</option>
+                                    <option value="6">Angola</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label class="col-sm-2 control-label" for="input-zone">Region / State</label>
+                            <div class="col-sm-10">
+                                <select name="zone_id" id="input-zone" class="form-control">
+                                    <option value=""> -&#45;&#45; Please Select -&#45;&#45; </option>
+                                    <option value="3513">Aberdeen</option>
+                                    <option value="3514">Aberdeenshire</option>
+                                    <option value="3515">Anglesey</option>
+                                    <option value="3516">Angus</option>
+
+                                </select>
+                            </div>
+                        </div>
+                    </fieldset>-->
+                    <fieldset>
+                        <legend>您的密码</legend>
+                        <div class="form-group required">
+                            <p class="col-sm-12 col-sm-offset-2">（密码长度6－30）</p>
+                            <label class="col-sm-2 control-label" for="input-password">密码</label>
+                            <div class="col-sm-10">
+                                <input type="password" name="password" value="" id="input-password" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label class="col-sm-2 control-label" for="input-confirm">确认密码</label>
+                            <div class="col-sm-10">
+                                <input type="password" name="repwd" value="" id="input-confirm" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group required">
+                            <label class="col-sm-2 control-label" for="input-verify">请输入验证码</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="verify" id="input-verify" class="form-control" />
+                            <a href="javascript:onclick=change_verify()" style="text-decoration: underline">看不清，换一张</a><img src="{:U('Home/User/yzm','', '')}" alt="验证码" title="点击刷新" id="code_img" height="50" style="margin:10px 0 0 5px;"/>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!--<fieldset>
+                        <legend>Newsletter</legend>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Subscribe</label>
+                            <div class="col-sm-10">
+                                <label class="radio-inline">
+                                    <input type="radio" name="newsletter" value="1"> Yes
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="newsletter" value="0" checked="checked"> No
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>-->
+                    <div class="buttons">
+                        <notempty name="go">
+                            <div class="suc-div col-sm-4 col-sm-offset-4">
+                                <div class="suc-mess">
+                                    <span class="suc-icon"></span>
+                                    <span>注册成功，2秒后跳转...</span>
+                                </div>
+                                <img src="__PUBLIC__/Home/images/ajax_loader.gif" width="309" height="12">
+                                <meta http-equiv='refresh' content='2;url=login'>
+                            </div>
+                            <else/>
+                            <div class="pull-right">
+                                <input type="submit" value="注册用户" class="btn btn-primary">
+                            </div>
+                        </notempty>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- //Main Container -->
+
+
+    <!-- Footer Container -->
+    <include file="Common/footer"/>
+    <!-- //end Footer Container -->
+</div>
+
+
+<!-- Include Libs & Plugins
+	============================================ -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/jquery-2.2.4.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/angular.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/angular-ui-bootstrap.js"></script>
+
+<script>
+    var root_url = '__ROOT__';
+    var m = angular.module('app', ['ui.bootstrap']);
+    $(document).ready(function() {
+        change_verify();
+    });
+
+    var verifyURL = $("#code_img").attr("src");
+    function change_verify() {
+        var time = new Date().getTime();
+        $("#code_img").attr("src", verifyURL + "/" + time);
+    }
+    $(document).on("click", "#code_img", change_verify);
+</script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/owl-carousel/owl.carousel.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/libs.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/cart_nav.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/js/search.js"></script>
+<!-- Theme files
+============================================ -->
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/so_megamenu.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/addtocart.js"></script>
+<script type="text/javascript" src="__PUBLIC__/Home/templet/js/themejs/application.js"></script>
+
+</body>
+</html>

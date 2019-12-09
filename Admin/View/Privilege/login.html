@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="shortcut icon" href="__ROOT__/favicon.ico" />
+    <link rel="bookmark" href="__ROOT__/favicon.ico" type="image/x-icon" />
+    <title>步步坚</title>
+    <link href="__PUBLIC__/Admin/css/style_log.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/css/style.css">
+    <link rel="stylesheet" type="text/css" href="__PUBLIC__/Admin/css/userpanel.css">
+    <script src="__PUBLIC__/js/jquery-3.3.1.min.js"></script>
+</head>
+
+<body class="login" mycollectionplug="bind">
+<div class="login_m">
+    <div class="login_logo"><img src="__PUBLIC__/Admin/images/logo.png" width="196" height="46"></div>
+    <div class="login_boder">
+        <div class="login_padding" id="login_model">
+            <form method="post">
+                <h2>USERNAME</h2>
+                <label>
+                    <input type="text" name="username" class="txt_input txt_input2">
+                </label>
+
+                <h2>PASSWORD</h2>
+                <label>
+                    <input type="password" name="pwd" id="userpwd" class="txt_input">
+                </label>
+                <empty name="err_verify">
+                <div style="display:none">
+                <else/>
+                <div>
+                </empty>
+                    <span>请输入验证码</span>
+                    <label>
+                        <input type="text"  name="verify" >
+                    </label>
+                    <p id="change_code">
+                        <a href="javascript:onclick=change_verify()" style="text-decoration: underline">看不清，换一张</a><img src="{:U('Admin/Privilege/yzm','', '')}" alt="验证码" title="点击刷新" id="code_img" height="50" style="margin:10px 0 0 5px;"/>
+                    </p>
+                </div>
+               <notempty name="err">
+                        <div class="error-mess">
+                            <span class="error-icon"></span>
+                            <span>{$err}</span>
+                        </div>
+                    <else />
+                   <notempty name="go">
+                       <div class="suc-mess">
+                           <span class="suc-icon"></span>
+                           <span>成功登陆，2秒后跳转...</span>
+                       </div>
+                       <img src="__PUBLIC__/Admin/images/loading1.gif" width="309" height="20">
+                       <else/>
+                       <div style="height:38px"></div>
+                   </notempty>
+                </notempty>
+                <div class="rem_sub">
+                    <div class="rem_sub_l">
+                        <input type="checkbox" name="checkbox" id="save_me">
+                        <label for="save_me">Remember me</label>
+                    </div>
+                    <label>
+                        <input type="submit" class="sub_button" name="button" id="button" value="SIGN-IN" style="opacity: 0.7;">
+                    </label>
+                </div>
+
+            </form>
+        </div>
+
+        <div class="copyrights">Collect from <a href="https://www.cssmoban.com/" >企业网站模板</a></div>
+
+        <!--login_padding  Sign up end-->
+    </div><!--login_boder end-->
+</div><!--login_m end-->
+<br> <br> <br>
+<p align="center"> More Templates <a href="https://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
+<script>
+//点击更换验证码
+var verifyURL = $("#code_img").attr("src");
+function change_verify(){
+    var time = new Date().getTime();
+    $("#code_img").attr("src", verifyURL+"/"+time);
+}
+$(document).on("click", "#code_img", change_verify);
+</script>
+</body></html>

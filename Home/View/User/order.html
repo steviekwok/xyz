@@ -1,0 +1,73 @@
+<div class="row">
+        <div id="content" class="col-xs-12">
+            <div class="order-tit">
+                <div class="clearfix">
+                    <ul class="pull-left filter-list">
+                        <li ng-init="od_status=2" ng-class="{'active':od_status==2}"  ng-click="od_status=2;use_data=data"><a>全部订单</a></li>
+                        <li ng-class="{'active':od_status==0}" ng-click="od_status=0;nopaid()"><a>待支付</a></li>
+                        <li ng-class="{'active':od_status==1}" ng-click="od_status=1;paid()"><a>已支付</a></li>
+                    </ul>
+                    <div class="search-div">
+                        <button type="submit" class="pull-right button-search btn btn-primary" ng-click="search()"><i class="fa fa-search"></i></button>
+                        <input class="search-text pull-right" type="text" ng-model="keywords" autocomplete="off" placeholder="输入商品名称、订单号" ng-keydown="keyDownEvent($event)"/>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <ul class="order-list">
+                    <li class="uc-order-item" ng-class="{'uc-order-item-finish':v.paystatus==1}" ng-repeat="v in use_data">
+                        <div>
+                            <div class="order-summary" ng-switch="v.paystatus">
+                                <div class="order-status" ng-switch-when="1">已支付</div>
+                                <div class="order-status" ng-switch-when="0">待支付</div>
+                            </div>
+                            <table class="order-detail-table">
+                                <thead>
+                                <tr>
+                                    <th class="col-main">
+                                        <p class="caption-info">
+                                            {{v.ordtime}}
+                                            <span class="sep">|</span>
+                                            {{v.name}}
+                                            <span class="sep">|</span>
+                                            订单号：
+                                            <a href="#">{{v.ord_sn}}</a>
+                                            <span class="sep">|</span>
+                                            在线支付
+                                        </p>
+                                    </th>
+                                    <th class="col-sub">
+                                        <p>订单金额：<span class="num">{{v.total}}</span>元</p>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <ul class="goods-list">
+                                            <li ng-repeat="g in v.goods">
+                                                <div class="figure-thumb">
+                                                    <a href="__ROOT__/Home/goods/goods/goods_id/{{g['goods_id']}}" target="_blank">
+                                                        <img ng-src="__ROOT__{{g.thumb_img}}" width="80" height="80" alt="{{g.goods_name}}" />
+                                                    </a>
+                                                </div>
+                                                <p class="name">
+                                                    <a href="#" target="_blank">{{g.goods_name}}</a>
+                                                </p>
+                                                <p class="price">{{g.shop_price}}元 × {{g.buy_qty}}</p>
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td class="order-actions">
+                                        <a class="btn btn-small btn-line-gray" href="#">订单详情</a>
+                                        <a class="btn btn-small btn-line-gray" href="#">申请售后</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+</div>

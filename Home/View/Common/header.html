@@ -1,0 +1,252 @@
+<header id="header" class="variantleft type_1" >
+    <!-- Header Top -->
+    <div class="header-top compact-hidden">
+        <div class="container">
+            <div class="row">
+                <div class="header-top-left form-inline col-xs-12 col-sm-6 compact-hidden ">
+                    <!-- Logo -->
+                    <div class="head-bar hidden-xs hidden-sm">
+                        <a href="__ROOT__/">
+                            <img src="__PUBLIC__/Home/images/mylogo.png" class="logo" width="190" height="180" />
+                        </a>
+                    </div>
+                    <h5 class="visible-xs visible-sm">欢迎光临 － <a href="__ROOT__/">商城首页</a></h5>
+                    <!-- //end Logo -->
+                </div>
+                <div class="header-top-right collapsed-block text-right col-xs-12 col-sm-6 compact-hidden ">
+                    <h5 class="tabBlockTitle visible-xs">
+                        展开
+                        <a class="expander " href="#TabBlock-1"><i class="fa fa-angle-down"></i></a>
+                    </h5>
+                    <div class="tabBlock" id="TabBlock-1">
+                        <ul class="top-link list-inline">
+                            <li class="account" id="my_account">
+                                <if condition="!che()">
+                                    <a href="#"  class="btn btn-xs dropdown-toggle" data-toggle="dropdown">
+                                        <span >我的会员</span> <span class="fa fa-angle-down"></span></a>
+                                    <ul class="dropdown-menu ">
+                                        <li><a href="{:U('Home/user/reg')}"><i class="fa fa-user"></i>&nbsp;&nbsp;注 册</a></li>
+                                        <li><a href="{:U('Home/user/login')}"><i class="fa fa-pencil-square-o"></i> 登 录</a></li>
+                                    </ul>
+                                    <else />
+                                    <a href="#" class="btn btn-xs dropdown-toggle vip" data-toggle="dropdown"> <span ><b>{$Think.cookie.username}</b></span> <span class="fa fa-angle-down"></span></a>
+                                    <ul class="dropdown-menu ">
+                                        <li><a href="{:U('Home/user/myAccout')}"><i class="fa fa-user"></i>&nbsp;&nbsp;个人信息</a></li>
+                                        <li><a href="__ROOT__/Home/user/myAccout.html#!/order"><i class="fa fa-file-text-o"></i>&nbsp;&nbsp;我的订单</a></li>
+                                        <li><a href="{:U('Home/user/logOut')}"><i class="fa fa-sign-out"></i>&nbsp; 退 出</a></li>
+                                    </ul>
+                                </if>
+                            </li>
+                            <li class="wishlist"><a href="{:U('Home/wish/index')}" id="wishlist-total" class="top-link-wishlist" title="心愿单"><span>心愿清单</span></a></li>
+                            <li class="checkout"><a href="javascript:void(0)" onclick="checkout()" class="top-link-checkout" title="结算"><span >结算</span></a></li>
+                            <li class="login"><a href="{:U('Home/cart/cart')}" title="购物车"><span >购物车</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- //Header Top -->
+
+    <!-- Header center -->
+    <div class="header-center left">
+        <div class="container">
+            <div class="row">
+                <!-- Logo -->
+                <div class="navbar-logo col-sm-12 col-xs-12">
+                    <a class="visible-xs visible-sm" href="__ROOT__/">
+                        <img src="__PUBLIC__/Home/images/thumb1.jpg" title="Your Store" alt="Your Store" class="img-circle" style="position:relative;top:-10px;"/>
+                        <span style="font-family: 幼圆;font-size: large;font-weight: bolder;color:limegreen;"> 步步坚商城</span>
+                    </a>
+                </div>
+                <!-- //end Logo -->
+                <!-- Search -->
+                <div id="sosearchpro" class="col-md-5 col-sm-7 col-md-offset-3 search-pro" >
+                    <search root_url="__ROOT__"></search>
+                    <div class="guanjianzi">
+                        <ul>
+                            <li><a href="__ROOT__/index.php/Home/Search/index.html?keyword=iphoneX">iphoneX</a></li>
+                            <li><a href="__ROOT__/index.php/Home/Search/index.html?keyword=小米6">小米6</a></li>
+                            <li><a href="__ROOT__/index.php/Home/Search/index.html?keyword=荣耀9">荣耀9</a></li>
+                            <li><a href="__ROOT__/index.php/Home/Search/index.html?keyword=魅族PRO7">魅族PRO7</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- //end Search -->
+                <!-- Secondary menu -->
+                <div class="col-md-3 col-sm-5 col-xs-12 shopping_cart pull-right" ng-controller="ctrl2">
+                    <!--cart-->
+                    <nav-cart amount="amount" total="{{total}}" item="item" root_url="{{root_url}}" login="{{login}}"></nav-cart>
+                    <!--//cart-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- //Header center -->
+
+    <!-- Header Bottom -->
+    <div class="header-bottom">
+        <div class="container">
+            <div class="row">
+
+                <div class="sidebar-menu col-md-3 col-sm-6 col-xs-12 menu-block">
+                    <div class="responsive so-megamenu ">
+                        <div class="so-vertical-menu no-gutter compact-hidden">
+                            <nav class="navbar-default">
+                                <div class="container-megamenu vertical open">
+                                    <div id="menuHeading">
+                                        <div class="megamenuToogle-wrapper">
+                                            <div class="megamenuToogle-pattern">
+                                                <div class="container">
+                                                    <div>
+                                                        <span></span>
+                                                        <span></span>
+                                                        <span></span>
+                                                    </div>
+                                                    经营商品
+                                                    <i class="fa pull-right arrow-circle fa-chevron-circle-up"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="navbar-header">
+                                        <button type="button" id="show-verticalmenu" data-toggle="collapse" class="navbar-toggle fa fa-list-alt"></button>
+                                        经营商品
+                                    </div>
+                                    <div class="vertical-wrapper" >
+                                        <span id="remove-verticalmenu" class="fa fa-times"></span>
+                                        <div class="megamenu-pattern">
+                                            <div class="container">
+                                                <ul class="megamenu">
+                                                    <foreach name="cattree" item='v'>
+                                                        <if condition="($v.lv eq 0) AND ($v.is_show neq 0)">
+                                                            <li class="item-vertical  css-menu with-sub-menu hover">
+                                                                <p class="close-menu"></p>
+                                                                <a href="#" class="clearfix">
+                                                                    <span>&nbsp;&nbsp;{$v.cat_name}</span>
+                                                                    <b class="caret"></b>
+                                                                </a>
+                                                                <div class="sub-menu" data-subwidth="14">
+                                                                    <div class="content" style="display: none;">
+                                                                        <div class="row">
+                                                                            <div class="col-sm-12">
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-12 hover-menu">
+                                                                                        <div class="menu">
+                                                                                            <ul>
+                                                                                                <foreach name="cattree" item="s">
+                                                                                                    <if condition="($v[cat_id] eq $s[parent_id]) AND ($s.is_show neq 0)">
+                                                                                                        <li>
+                                                                                                            <a href="{:U('Home/cat/cat',array('cat_id'=>$s[cat_id]))}" class="main-menu" target="_blank" title="{$s.cat_name}">{$s.cat_name}</a>
+                                                                                                        </li>
+                                                                                                    </if>
+                                                                                                </foreach>
+                                                                                            </ul>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        </if>
+                                                    </foreach>
+
+                                                    <li class="item-vertical" >
+                                                        <p class="close-menu"></p>
+                                                        <a href="#" class="clearfix">
+                                                            <span>&nbsp;&nbsp;运动 &amp; 户外 </span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="item-vertical" >
+                                                        <p class="close-menu"></p>
+                                                        <a href="#" class="clearfix">
+                                                            <span>&nbsp;&nbsp;图书 &amp; 音像</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="item-vertical" >
+                                                        <p class="close-menu"></p>
+                                                        <a href="#" class="clearfix">
+
+                                                            <span>&nbsp;&nbsp;箱包&amp;节日用品</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="item-vertical" >
+                                                        <p class="close-menu"></p>
+
+                                                        <a href="#" class="clearfix">
+
+                                                            <span>&nbsp;&nbsp;奢侈品</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="loadmore">
+                                                        <i class="fa fa-plus-square-o"></i>
+                                                        <span class="more-view">更多品类</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main menu -->
+                <div class="megamenu-hori header-bottom-right  col-md-9 col-sm-6 col-xs-12 ">
+                    <div class="responsive so-megamenu ">
+                        <nav class="navbar-default">
+                            <div class=" container-megamenu  horizontal">
+                                <div class="navbar-header">
+                                    <button type="button" id="show-megamenu" data-toggle="collapse" class="navbar-toggle">
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                    热卖品类
+                                </div>
+
+                                <div class="megamenu-wrapper">
+                                    <span id="remove-megamenu" class="fa fa-times"></span>
+                                    <div class="megamenu-pattern">
+                                        <div class="container">
+                                            <ul class="megamenu " data-transition="slide" data-animationtime="250">
+                                                <li> <a href="__ROOT__/" title=""  class="hidden-md">首页</a></li>
+                                                <foreach name="cat_in_nav" item="c" key="k">
+                                                    <li>
+                                                        <a href="{:U('Home/cat/cat',array('cat_id'=>$c['cat_id']))}" class="clearfix">
+                                                            <strong>{$c.cat_name}</strong>
+                                                            <if condition="$k eq 4 or $k eq 3">
+                                                                <span class="label">Hot</span>
+                                                            </if>
+                                                        </a>
+                                                    </li>
+                                                </foreach>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+                <!-- //end Main menu -->
+
+            </div>
+        </div>
+
+    </div>
+    <!-- //Header Bottom -->
+</header>
+<script>
+    function checkout(){
+        var num="";
+        for(var i=0;i<4;i++){
+            num+=Math.floor(Math.random()*10)
+        }
+        var rid = Math.round(new Date().getTime()/1000) + num;
+        location.href="__ROOT__/Home/order/checkout/?rid="+rid;
+    }
+</script>

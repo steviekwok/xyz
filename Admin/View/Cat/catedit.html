@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>ECSHOP 管理中心 - 添加分类 </title>
+<meta name="robots" content="noindex, nofollow">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="__ROOT__/favicon.ico" />
+    <link rel="bookmark" href="__ROOT__/favicon.ico" type="image/x-icon" />
+<link href="__PUBLIC__/Admin/css/general.css" rel="stylesheet" type="text/css" />
+<link href="__PUBLIC__/Admin/css/main.css" rel="stylesheet" type="text/css" />
+    <!--script type="text/javascript" src="__PUBLIC__/admin/js/validator.js"></script-->
+</head>
+<body>
+<h1>
+<span class="action-span"><a href="__ROOT__/index.php/Admin/cat/catlist">返回</a></span>
+<span class="action-span1"><a href="__ROOT__/index.php/Admin/Index/main">ECSHOP 管理中心</a> </span><span id="search_id" class="action-span1"> - 添加分类 </span>
+<div style="clear:both"></div>
+</h1>
+
+<div class="main-div">
+  <form action="{:U('Admin/cat/catedit',array('cat_id'=>$cat_item['cat_id']))}" method="post" name="theForm" enctype="multipart/form-data" onsubmit="return validate()">
+  <table width="100%" id="general-table">
+      <tr>
+        <td class="label">分类名称:</td>
+        <td>
+          <input type='text' name='cat_name' maxlength="20" value='{$cat_item.cat_name}' size='27' /> <font color="red">*</font>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">上级分类:</td>
+        <td>
+          <select name="parent_id">
+              <if condition="$cat_item['parent_id'] eq 0">
+                      <option value="0"  selected="selected" >顶级分类</option>
+                      <foreach name="catlist" item="c">
+                              <option value="{$c.cat_id}" ><for start="0" end="$c['lv']">&nbsp;&nbsp;</for>{$c.cat_name}</option>
+                      </foreach>
+                  <else />
+                      <option value="0"  >顶级分类</option>
+                      <foreach name="catlist" item="c">
+                          <if condition="$cat_item['parent_id']==$c['cat_id']">
+                              <option value="{$c.cat_id}"  selected="selected" ><for start="0" end="$c['lv']">&nbsp;&nbsp;</for>{$c.cat_name}</option>
+                              <else />
+                              <option value="{$c.cat_id}" ><for start="0" end="$c['lv']">&nbsp;&nbsp;</for>{$c.cat_name}</option>
+                          </if>
+                      </foreach>
+              </if>
+          </select>
+        </td>
+      </tr>
+      <tr>
+          <td class="label">是否显示:</td>
+          <td>
+              <eq name="cat_item['is_show']" value="1">
+                      <input type="radio" name="is_show" value="1" checked="true"/> 是
+                      <input type="radio" name="is_show" value="0"/> 否
+                  <else />
+                      <input type="radio" name="is_show" value="1"/> 是
+                      <input type="radio" name="is_show" value="0" checked="true"/> 否
+              </eq>
+          </td>
+      </tr>
+      <tr>
+          <td class="label">是否显示在导航栏:</td>
+          <td>
+              <if condition="$cat_item['show_in_nav'] eq 1">
+                  <input type="radio" name="show_in_nav" value="1" checked="true" /> 是
+                  <input type="radio" name="show_in_nav" value="0" /> 否
+                  <else />
+                  <input type="radio" name="show_in_nav" value="1" /> 是
+                  <input type="radio" name="show_in_nav" value="0" checked="true" /> 否
+              </if>
+
+          </td>
+      </tr>
+      <tr>
+          <td class="label">设置为首页推荐:</td>
+          <td>
+              <if condition="$cat_recommend[1] eq 1">
+                  <input type="checkbox" name="cat_recommend[]" value="1" checked="true"/>
+                  <else />
+                  <input type="checkbox" name="cat_recommend[]" value="1" />
+               </if>精品
+              <if condition="$cat_recommend[2] eq 1">
+                  <input type="checkbox" name="cat_recommend[]" value="2" checked="true"/>
+                  <else />
+                  <input type="checkbox" name="cat_recommend[]" value="2" />
+              </if>最新
+              <if condition="$cat_recommend[3] eq 1">
+                  <input type="checkbox" name="cat_recommend[]" value="3" checked="true"/>
+                  <else />
+                  <input type="checkbox" name="cat_recommend[]" value="3" />
+              </if>热卖
+          </td>
+      </tr>
+      <tr>
+          <td class="label"><a href="javascript:showNotice('noticeGoodsSN');" title="点击此处查看提示信息">
+              <img src="__PUBLIC__/Admin/images/notice.gif" width="16" height="16" border="0" alt="您可以为每一个商品分类指定一个样式表文件。例如文件存放在 themes 目录下则输入：themes/style.css">
+          </a>分类的样式表文件:</td>
+          <td>
+              <input type="text" name="style"  size="40" value="{$cat_item.style}"/> <br />
+              <span class="notice-span" style="display:block" id="noticeGoodsSN">您可以为每一个商品分类指定一个样式表文件。例如文件存放在 themes 目录下则输入：themes/style.css</span>
+          </td>
+      </tr>
+      <tr>
+        <td class="label">分类描述:</td>
+        <td>
+          <textarea name='intro' rows="6" cols="48">{$cat_item.intro}</textarea>
+        </td>
+      </tr>
+      </table>
+      <div class="button-div">
+        <input type="submit" value=" 确定 " />
+        <input type="reset" value=" 重置 " />
+      </div>
+    <input type="hidden" name="cat_id" value="{$cat_item.cat_id}" />
+  </form>
+</div>
+
+<script>
+    /**
+     * 检查表单输入的数据
+     */
+    function validate() {
+        var name=document.getElementsByName("cat_name")[0].value;
+        if(name == ''){
+            alert("分类名称不能为空！");
+            return false;
+        }
+    }
+</script>
+</body>
+</html>
